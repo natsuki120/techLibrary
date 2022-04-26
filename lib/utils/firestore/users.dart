@@ -65,9 +65,9 @@ class UserFirestore {
           .collection('my_book')
           .get()
           .then((QuerySnapshot snapshot) {
-        snapshot.docs.forEach((doc) {
+        for (var doc in snapshot.docs) {
           myBookList.add(doc.id);
-        });
+        }
       });
       print('本の情報取得完了');
       return myBookList;
@@ -86,6 +86,20 @@ class UserFirestore {
       return true;
     } on FirebaseException catch (e) {
       print('貸出エラー： $e');
+      return false;
+    }
+  }
+
+  static Future<dynamic> editUser(String editName, String editImgUrl) async {
+    try {
+      await users.doc(Authentication.myAccount!.id).update({
+        'name': editName,
+        'image_path': editImgUrl,
+      });
+      print('ユーザー編集完了');
+      return true;
+    } on FirebaseException catch (e) {
+      print('ユーザー編集エラー: $e');
       return false;
     }
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void showErrorDialog(BuildContext context, String? message) {
@@ -10,7 +9,7 @@ void showErrorDialog(BuildContext context, String? message) {
         title: Text(message!),
         actions: <Widget>[
           TextButton(
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () {
               Navigator.pop(dialogContext);
             },

@@ -1,8 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Book {
-  Book({this.name = '', this.imgURL = '', this.id = ''});
-  String name;
+  Book({
+    this.title = '',
+    this.imgURL = '',
+    this.id = '',
+    this.author = '',
+    this.imageURL = '',
+    imagePath,
+  });
+  String title;
   String imgURL;
   String id;
+  String author;
+  String imageURL;
 }

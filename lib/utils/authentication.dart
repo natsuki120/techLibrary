@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tech_library/error/firebase_auth_exception_handler.dart';
 import 'package:tech_library/error/firebase_auth_result_status.dart';

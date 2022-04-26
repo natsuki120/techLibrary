@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'bottom_nav/home/Home.dart';
-import 'bottom_nav/add_book/add_book_page.dart';
-import 'bottom_nav/mypage/account_page.dart';
+import 'menu/home/Home.dart';
+import 'menu/add_book/add_book_page.dart';
+import 'menu/mypage/account/account_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({

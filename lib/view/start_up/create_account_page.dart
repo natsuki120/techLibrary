@@ -40,24 +40,30 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             Container(
               height: size.height * 0.45,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.lightBlue.shade100])),
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.lightBlue.shade100],
+                ),
+              ),
               child: Column(
                 children: [
                   Container(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.2,
-                            width: size.width * 0.3,
-                          ),
-                        ],
-                      )),
-                  Text('TechLibrary',
-                      style: TextStyle(
-                          fontSize: size.height * 0.04,
-                          color: Colors.white.withOpacity(0.9))),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.2,
+                          width: size.width * 0.3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'TechLibrary',
+                    style: TextStyle(
+                      fontSize: size.height * 0.04,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -68,9 +74,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 children: [
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: size.height * 0.3),
+                      margin: EdgeInsets.only(
+                        top: size.height * 0.3,
+                      ),
                       width: size.width * 0.9,
-                      height: size.height * 0.4,
+                      height: size.height * 0.36,
                       //情報入力欄
                       child: Card(
                         child: Column(
@@ -79,60 +87,74 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             Form(
                               key: nameKey,
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 40, right: 40, top: 20),
+                                margin: EdgeInsets.only(
+                                  left: size.width * 0.1,
+                                  right: size.width * 0.1,
+                                  top: size.height * 0.025,
+                                ),
                                 child: TextFormField(
-                                    controller: nameController,
-                                    decoration: InputDecoration(
-                                      hintText: 'ユーザー名',
-                                      hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.2)),
-                                    ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return '入力してください';
-                                      }
-                                    }),
+                                  controller: nameController,
+                                  decoration: InputDecoration(
+                                    hintText: 'ユーザー名',
+                                    hintStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.2)),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return '入力してください';
+                                    }
+                                  },
+                                ),
                               ),
                             ),
                             //メアド入力欄
                             Form(
                               key: emailKey,
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 40, right: 40, top: 20),
+                                margin: EdgeInsets.only(
+                                  left: size.width * 0.1,
+                                  right: size.width * 0.1,
+                                  top: size.height * 0.025,
+                                ),
                                 child: TextFormField(
-                                    controller: emailController,
-                                    decoration: InputDecoration(
-                                      hintText: 'メールアドレス',
-                                      hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.2)),
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    hintText: 'メールアドレス',
+                                    hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.2),
                                     ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return '入力してください';
-                                      }
-                                    }),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return '入力してください';
+                                    }
+                                  },
+                                ),
                               ),
                             ),
                             //パスワード入力欄
                             Form(
                               key: passKey,
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    left: 40, right: 40, top: 20),
+                                margin: EdgeInsets.only(
+                                  left: size.width * 0.1,
+                                  right: size.width * 0.1,
+                                  top: size.height * 0.025,
+                                ),
                                 child: TextFormField(
-                                    controller: passController,
-                                    decoration: InputDecoration(
-                                      hintText: 'パスワード',
-                                      hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.2)),
+                                  controller: passController,
+                                  decoration: InputDecoration(
+                                    hintText: 'パスワード',
+                                    hintStyle: TextStyle(
+                                      color: Colors.black.withOpacity(0.2),
                                     ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return '入力してください';
-                                      }
-                                    }),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return '入力してください';
+                                    }
+                                  },
+                                ),
                               ),
                             ),
                           ],
@@ -146,18 +168,21 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     child: Center(
                       child: Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: size.height * 0.75),
+                        margin: EdgeInsets.only(top: size.height * 0.7),
                         width: size.width * 0.7,
                         height: size.height * 0.1,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                              colors: [Colors.blue, Colors.lightBlue.shade100]),
+                            colors: [Colors.blue, Colors.lightBlue.shade100],
+                          ),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
                           'Create',
                           style: TextStyle(
-                              color: Colors.white, fontSize: size.width * 0.05),
+                            color: Colors.white,
+                            fontSize: size.width * 0.05,
+                          ),
                         ),
                       ),
                     ),

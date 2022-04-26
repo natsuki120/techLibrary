@@ -19,12 +19,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // メールアドレス
   final emailKey = GlobalKey<FormState>();
-
   TextEditingController emailController = TextEditingController();
 
   // パスワード
   final passKey = GlobalKey<FormState>();
-
   TextEditingController passController = TextEditingController();
 
   @override
@@ -39,24 +37,30 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               height: size.height * 0.45,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.blue, Colors.lightBlue.shade100])),
+                gradient: LinearGradient(
+                  colors: [Colors.blue, Colors.lightBlue.shade100],
+                ),
+              ),
               child: Column(
                 children: [
                   Container(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.2,
-                            width: size.width * 0.3,
-                          ),
-                        ],
-                      )),
-                  Text('TechLibrary',
-                      style: TextStyle(
-                          fontSize: size.height * 0.04,
-                          color: Colors.white.withOpacity(0.9))),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.2,
+                          width: size.width * 0.3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'TechLibrary',
+                    style: TextStyle(
+                      fontSize: size.height * 0.04,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -70,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(
                         margin: EdgeInsets.only(top: size.height * 0.35),
                         width: size.width * 0.9,
-                        height: size.height * 0.35,
+                        height: size.height * 0.3,
                         //情報入力欄
                         child: Card(
                           child: Column(
@@ -79,14 +83,18 @@ class _LoginPageState extends State<LoginPage> {
                               Form(
                                 key: emailKey,
                                 child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 40, right: 40, top: 30),
+                                  margin: EdgeInsets.only(
+                                    left: size.width * 0.1,
+                                    right: size.width * 0.1,
+                                    top: size.height * 0.04,
+                                  ),
                                   child: TextFormField(
                                     controller: emailController,
                                     decoration: InputDecoration(
                                       hintText: 'メールアドレス',
                                       hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.2)),
+                                        color: Colors.black.withOpacity(0.2),
+                                      ),
                                     ),
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -101,14 +109,18 @@ class _LoginPageState extends State<LoginPage> {
                               Form(
                                 key: passKey,
                                 child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 40, right: 40, top: 20),
+                                  margin: EdgeInsets.only(
+                                    left: size.width * 0.1,
+                                    right: size.width * 0.1,
+                                    top: size.height * 0.03,
+                                  ),
                                   child: TextFormField(
                                     controller: passController,
                                     decoration: InputDecoration(
                                       hintText: 'パスワード',
                                       hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.2)),
+                                        color: Colors.black.withOpacity(0.2),
+                                      ),
                                     ),
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -130,31 +142,32 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.only(top: size.height * 0.65),
+                          margin: EdgeInsets.only(top: size.height * 0.6),
                           width: size.width * 0.7,
                           height: size.height * 0.1,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [
-                              Colors.blue,
-                              Colors.lightBlue.shade100
-                            ]),
+                            gradient: LinearGradient(
+                              colors: [Colors.blue, Colors.lightBlue.shade100],
+                            ),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
                             'Sign In',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.05),
+                              color: Colors.white,
+                              fontSize: size.width * 0.05,
+                            ),
                           ),
                         ),
                       ),
                       onTap: () async {
-                        EasyLoading.show(status: 'loading...');
                         if (emailKey.currentState!.validate() &&
                             passKey.currentState!.validate()) {
+                          EasyLoading.show(status: 'loading...');
                           var result = await Authentication.emailSignIn(
-                              email: emailController.text,
-                              pass: passController.text);
+                            email: emailController.text,
+                            pass: passController.text,
+                          );
                           if (result is UserCredential) {
                             var _result =
                                 await UserFirestore.getUser(result.user!.uid);
@@ -162,10 +175,11 @@ class _LoginPageState extends State<LoginPage> {
                             EasyLoading.dismiss();
                             if (_result == true) {
                               Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MyHomePage()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyHomePage(),
+                                ),
+                              );
                             }
                           } else {
                             EasyLoading.dismiss();
@@ -179,29 +193,33 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-
                 // 新規登録の誘導
                 Container(
                   margin: EdgeInsets.only(top: size.height * 0.05),
                   child: RichText(
                     text: TextSpan(
-                        style: const TextStyle(color: Colors.black),
-                        children: [
-                          const TextSpan(
-                              text: '新規登録は',
-                              style: TextStyle(color: Colors.grey)),
-                          TextSpan(
-                              text: 'こちら',
-                              style: const TextStyle(color: Colors.blue),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CreateAccountPage()));
-                                })
-                        ]),
+                      style: const TextStyle(color: Colors.black),
+                      children: [
+                        const TextSpan(
+                          text: '新規登録は',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextSpan(
+                          text: 'こちら',
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CreateAccountPage(),
+                                ),
+                              );
+                            },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -1,32 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_library/utils/firestore/books.dart';
 import 'package:tech_library/view/book_list/book_list_model.dart';
 
+// 確かセーフエリアってあったよね？
+
 class ReturnBook extends StatelessWidget {
-  const ReturnBook({
-    Key? key,
-    required this.bookInfo,
-    required this.bookImg,
-    required this.bookName,
-  }) : super(key: key);
+  const ReturnBook(
+      {Key? key,
+      required this.bookInfo,
+      required this.bookImg,
+      required this.bookName,
+      required this.author})
+      : super(key: key);
   final String bookInfo;
   final String bookImg;
   final String bookName;
+  final String author;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return ChangeNotifierProvider<BookListModel>(
-        create: (_) => BookListModel()..fetchFavoriteBookList(),
-        child: Consumer<BookListModel>(builder: (context, model, child) {
+      create: (_) => BookListModel()..fetchFavoriteBookList(),
+      child: Consumer<BookListModel>(
+        builder: (context, model, child) {
           List favoriteBooks = model.favoriteBooks;
           return Scaffold(
+            appBar: NewGradientAppBar(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.lightBlue.shade200],
+              ),
+              elevation: 0.0,
+            ),
             body: Stack(
               children: [
                 // 本
                 Container(
-                  height: size.height * 0.45,
+                  height: size.height * 0.35,
+                  padding: EdgeInsets.only(bottom: size.height * 0.04),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -34,7 +48,10 @@ class ReturnBook extends StatelessWidget {
                   ),
                   child: SizedBox(
                     height: size.height * 0.3,
-                    child: Image.network(bookImg),
+                    child: SizedBox(
+                      height: size.height * 0.3,
+                      child: Image.network(bookImg),
+                    ),
                   ),
                 ),
                 Container(
@@ -55,7 +72,7 @@ class ReturnBook extends StatelessWidget {
                       favoriteBooks.contains(bookInfo)
                           ? await BookFirestore.removeFavoriteBook(bookInfo)
                           : await BookFirestore.getFavoriteBook(
-                              bookInfo, bookImg, bookName);
+                              bookInfo, bookImg, bookName, author);
                     },
                   ),
                 ),
@@ -64,7 +81,7 @@ class ReturnBook extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: size.height * 0.52,
+                      height: size.height * 0.49,
                       width: size.width,
                       child: SingleChildScrollView(
                         child: Column(
@@ -77,22 +94,9 @@ class ReturnBook extends StatelessWidget {
                                 bookName,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: size.height * 0.035,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.0),
-                              ),
-                            ),
-                            // 著者
-                            const Text('石井幸次'),
-                            // 本の説明
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              height: 150,
-                              width: 350,
-                              child: const SingleChildScrollView(
-                                child: Text(
-                                  'テストテストてすと',
-                                  style: TextStyle(letterSpacing: 1.0),
+                                  fontSize: size.height * 0.035,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.0,
                                 ),
                               ),
                             ),
@@ -100,30 +104,36 @@ class ReturnBook extends StatelessWidget {
                             GestureDetector(
                               child: Center(
                                 child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 30),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: size.height * 0.1,
+                                  ),
                                   alignment: Alignment.center,
-                                  width: 300,
-                                  height: 50,
+                                  width: size.width * 0.8,
+                                  height: size.height * 0.15,
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Colors.blue,
-                                      Colors.lightBlue.shade100
-                                    ]),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.blue,
+                                        Colors.lightBlue.shade100
+                                      ],
+                                    ),
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: Text(
                                     '返却する',
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: size.width * 0.05,
-                                        letterSpacing: 2.0),
+                                      color: Colors.white,
+                                      fontSize: size.width * 0.05,
+                                      letterSpacing: 2.0,
+                                    ),
                                   ),
                                 ),
                               ),
                               onTap: () async {
+                                EasyLoading.show(status: 'loading...');
                                 var result =
                                     await BookFirestore.returnMyBook(bookInfo);
+                                EasyLoading.showSuccess('返却しました');
                                 if (result == true) {
                                   Navigator.pop(context);
                                 }
@@ -138,6 +148,8 @@ class ReturnBook extends StatelessWidget {
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }
