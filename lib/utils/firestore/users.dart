@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tech_library/model/account.dart';
-import 'package:tech_library/model/book.dart';
+import 'package:tech_library/domain/account.dart';
+import 'package:tech_library/domain/book.dart';
 import '../authentication.dart';
 
 class UserFirestore {

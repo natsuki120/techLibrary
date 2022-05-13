@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../model/account.dart';
-import '../account/account_model.dart';
+import '../../../../domain/account.dart';
+import '../account_model.dart';
 import '../edit_profile/edit_profile_page.dart';
 
 class MyAccount extends StatelessWidget {

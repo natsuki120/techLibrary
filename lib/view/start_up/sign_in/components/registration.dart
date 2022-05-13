@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../create_account_page.dart';
+import 'package:tech_library/view/start_up/sign_up/sign_up_page.dart';
 
 class Registration extends StatelessWidget {
   const Registration({Key? key}) : super(key: key);
@@ -9,7 +9,7 @@ class Registration extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(top: size.height * 0.05),
+      margin: EdgeInsets.only(top: size.height * 0.1),
       child: RichText(
         text: TextSpan(
           style: const TextStyle(color: Colors.black),
@@ -26,7 +26,7 @@ class Registration extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CreateAccountPage(),
+                      builder: (context) => const SignUpPage(),
                     ),
                   );
                 },

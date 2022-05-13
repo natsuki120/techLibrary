@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/book.dart';
+
 class SearchModel extends ChangeNotifier {
   String text = '';
   var searchList = [];
+  var searchBookList = [];
   var searchResultList = [];
 
   //　isEqualtoクエリだと部分一致ができない
@@ -15,25 +18,29 @@ class SearchModel extends ChangeNotifier {
         .get()
         .then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        searchList.add(doc.get('title'));
+        searchBookList.add(doc.get('title'));
       }
     });
   }
 
   void searchBookName(String bookName) async {
-    if (text.isNotEmpty) {
-      // 何か文字が入力された実行する
-      searchResultList.clear();
-      // ここから検索処理
-      for (var element in searchList) {
-        if (element.contains(text)) {
-          // .contains で文字列の部分一致を判定できる
-          searchResultList.add(element);
-        }
-      }
-    } else {
-      searchResultList.clear();
-    }
-    notifyListeners();
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = FirebaseFirestore
+        .instance
+        .collection('book')
+        .where('title', isEqualTo: bookName)
+        .snapshots();
+
+    snapshot.listen((QuerySnapshot snapshot) {
+      final searchBookList = snapshot.docs.map((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        return Book(
+            id: document.id,
+            title: data['title'],
+            author: data['author'],
+            imgURL: data['imgURL']);
+      }).toList();
+      this.searchBookList = searchBookList;
+      notifyListeners();
+    });
   }
 }

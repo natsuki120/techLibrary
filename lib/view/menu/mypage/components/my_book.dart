@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/firestore/users.dart';
 import '../../../book_detail/return_book.dart';
-import '../account/account_model.dart';
+import '../account_model.dart';
 import '../all_my_book_page.dart';
 
 class MyBook extends StatelessWidget {

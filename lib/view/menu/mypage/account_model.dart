@@ -1,37 +1,28 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tech_library/utils/authentication.dart';
-import '../../../../model/account.dart';
-import '../../../../model/book.dart';
+import '../../../../domain/account.dart';
+import '../../../../domain/book.dart';
 
 class AccountModel extends ChangeNotifier {
   Account? usersInfo;
   List<Book>? usersBook;
   List<Book>? usersFavoriteBook;
   static final _firestoreInstance = FirebaseFirestore.instance;
-
-  // ユーザー情報の取得
-  Stream<DocumentSnapshot<Map<String, dynamic>>> myAccount = _firestoreInstance
-      .collection('users')
-      .doc(Authentication.myAccount!.id)
-      .snapshots();
-
-  // ユーザーが借りている本の取得
-  static Stream<QuerySnapshot<Map<String, dynamic>>> myBook = _firestoreInstance
-      .collection('users')
-      .doc(Authentication.myAccount!.id)
-      .collection('my_book')
-      .snapshots();
-
-  // ユーザーのお気に入り本の取得
-  final Stream<QuerySnapshot<Map<String, dynamic>>> myFavoriteBook =
-      _firestoreInstance
-          .collection('users')
-          .doc(Authentication.myAccount!.id)
-          .collection('favorite')
-          .snapshots();
+  File? imageFile;
+  final picker = ImagePicker();
+  String? userName;
+  String? userImage;
 
   void getMyAccount() async {
+    Stream<DocumentSnapshot<Map<String, dynamic>>> myAccount =
+        _firestoreInstance
+            .collection('users')
+            .doc(Authentication.myAccount!.id)
+            .snapshots();
+
     myAccount.listen((DocumentSnapshot snapshot) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       Account usersInfo = Account(
@@ -44,6 +35,12 @@ class AccountModel extends ChangeNotifier {
   }
 
   void getMyBook() async {
+    Stream<QuerySnapshot<Map<String, dynamic>>> myBook = _firestoreInstance
+        .collection('users')
+        .doc(Authentication.myAccount!.id)
+        .collection('my_book')
+        .snapshots();
+
     myBook.listen((QuerySnapshot snapshot) {
       final usersBook = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -59,6 +56,13 @@ class AccountModel extends ChangeNotifier {
   }
 
   void getMyFavoriteBook() async {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> myFavoriteBook =
+        _firestoreInstance
+            .collection('users')
+            .doc(Authentication.myAccount!.id)
+            .collection('favorite')
+            .snapshots();
+
     myFavoriteBook.listen((QuerySnapshot snapshot) {
       final usersFavoriteBook = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -71,5 +75,32 @@ class AccountModel extends ChangeNotifier {
       this.usersFavoriteBook = usersFavoriteBook;
       notifyListeners();
     });
+  }
+
+  ImageProvider getImage() {
+    if (imageFile == null) {
+      return NetworkImage(Authentication.myAccount!.imagePath);
+    } else {
+      return FileImage(imageFile!);
+    }
+  }
+
+  Future pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
+
+  Future update(Account editAccount) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Authentication.myAccount!.id)
+        .update({
+      'name': editAccount.name,
+      'image_path': editAccount.imagePath,
+    });
+    notifyListeners();
   }
 }

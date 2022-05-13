@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_library/view/menu/mypage/edit_profile/edit_profile_model.dart';
-import '../../../../model/account.dart';
+import '../../../../domain/account.dart';
 import '../../../../utils/authentication.dart';
 import '../../../../utils/function_utils.dart';
 

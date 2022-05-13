@@ -1,6 +1,6 @@
 enum FirebaseAuthResultStatus {
-  Successful,
   EmailAlreadyExists,
+  WeekPassword,
   WrongPassword,
   InvalidEmail,
   UserNotFound,
