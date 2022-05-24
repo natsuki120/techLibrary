@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tech_library/models/account.dart';
+import 'package:tech_library/models/book.dart';
 import 'package:tech_library/utils/authentication.dart';
-import '../../../../domain/account.dart';
-import '../../../../domain/book.dart';
 
 class AccountModel extends ChangeNotifier {
   Account? usersInfo;
   List<Book>? usersBook;
-  List<Book>? usersFavoriteBook;
+  List usersFavoriteBook = [];
   static final _firestoreInstance = FirebaseFirestore.instance;
   File? imageFile;
   final picker = ImagePicker();
@@ -56,14 +56,13 @@ class AccountModel extends ChangeNotifier {
   }
 
   void getMyFavoriteBook() async {
-    final Stream<QuerySnapshot<Map<String, dynamic>>> myFavoriteBook =
+    final Stream<QuerySnapshot<Map<String, dynamic>>> usersFavoriteBook =
         _firestoreInstance
             .collection('users')
             .doc(Authentication.myAccount!.id)
             .collection('favorite')
             .snapshots();
-
-    myFavoriteBook.listen((QuerySnapshot snapshot) {
+    usersFavoriteBook.listen((QuerySnapshot snapshot) {
       final usersFavoriteBook = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
         return Book(
