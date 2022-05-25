@@ -1,72 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_auth_result_status.dart';
 
 class FirebaseAuthExceptionHandler {
-  static FirebaseAuthResultStatus handleException(FirebaseAuthException e) {
-    FirebaseAuthResultStatus result;
+  static String handleException(FirebaseAuthException e) {
+    String? result;
     switch (e.code) {
       case 'invalid-email':
-        result = FirebaseAuthResultStatus.InvalidEmail;
+        result = 'メールアドレスが不正です。';
         break;
       case 'wrong-password':
-        result = FirebaseAuthResultStatus.WrongPassword;
+        result = 'パスワードが違います';
         break;
       case 'weak-password':
-        result = FirebaseAuthResultStatus.WeekPassword;
+        result = 'パスワードは6文字以上を入力してください';
         break;
       case 'user-not-found':
-        result = FirebaseAuthResultStatus.UserNotFound;
+        result = '指定されたユーザーは存在しません。';
         break;
       case 'user-disabled':
-        result = FirebaseAuthResultStatus.UserDisabled;
-        break;
-      case 'too-many-requests':
-        result = FirebaseAuthResultStatus.TooManyRequests;
-        break;
-      case 'operation-not-allowed':
-        result = FirebaseAuthResultStatus.OperationNotAllowed;
+        result = '指定されたユーザーは無効です。';
         break;
       case 'email-already-in-use':
-        result = FirebaseAuthResultStatus.EmailAlreadyExists;
+        result = '指定されたメールアドレスは既に使用されています。';
         break;
       default:
-        result = FirebaseAuthResultStatus.Undefined;
+        result = '全て入力してください。';
         break;
     }
     return result;
-  }
-
-  static String exceptionMessage(FirebaseAuthResultStatus result) {
-    String? message = '';
-    switch (result) {
-      case FirebaseAuthResultStatus.EmailAlreadyExists:
-        message = '指定されたメールアドレスは既に使用されています。';
-        break;
-      case FirebaseAuthResultStatus.WrongPassword:
-        message = 'パスワードが違います。';
-        break;
-      case FirebaseAuthResultStatus.WeekPassword:
-        message = 'パスワードは6文字以上を入力してください';
-        break;
-      case FirebaseAuthResultStatus.InvalidEmail:
-        message = 'メールアドレスが不正です。';
-        break;
-      case FirebaseAuthResultStatus.UserNotFound:
-        message = '指定されたユーザーは存在しません。';
-        break;
-      case FirebaseAuthResultStatus.UserDisabled:
-        message = '指定されたユーザーは無効です。';
-        break;
-      case FirebaseAuthResultStatus.OperationNotAllowed:
-        message = '指定されたユーザーはこの操作を許可していません。';
-        break;
-      case FirebaseAuthResultStatus.TooManyRequests:
-        message = '指定されたユーザーはこの操作を許可していません。';
-        break;
-      case FirebaseAuthResultStatus.Undefined:
-        message = '不明なエラーが発生しました。';
-        break;
-    }
-    return message;
   }
 }
