@@ -1,40 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tech_library/models/book.dart';
 import 'package:tech_library/utils/authentication.dart';
 
 class BookFirestore {
   static final _firestoreinstance = FirebaseFirestore.instance;
-  static final CollectionReference book = _firestoreinstance.collection('book');
-  static final CollectionReference borrowedBook =
+  static final CollectionReference bookCollection =
+      _firestoreinstance.collection('book');
+  static final CollectionReference borrowBookCollection =
       _firestoreinstance.collection('borrowBook');
 
-  static Future<List?> getBook(String genre) async {
-    List bookList = [];
-    try {
-      book.where(genre).get().then((QuerySnapshot snapshot) {
-        snapshot.docs.forEach((doc) {
-          bookList.add(doc.id);
-        });
-      });
-      print('本の情報取得完了');
-      return bookList;
-    } on FirebaseException catch (e) {
-      print('本の情報取得エラー: $e');
-      return null;
-    }
-  }
-
-  static Future<dynamic> getFavoriteBook(String favoriteBook, String imgURL,
-      String bookName, String bookAuthor) async {
+  static Future<dynamic> fetchFavoriteBook(Book favoriteBook) async {
     try {
       final CollectionReference favorite = _firestoreinstance
           .collection('users')
           .doc(Authentication.myAccount!.id)
           .collection('favorite');
-      favorite.doc(favoriteBook).set({
-        'imgURL': imgURL,
+      favorite.doc(favoriteBook.id).set({
+        'imgURL': favoriteBook.imgURL,
         'created_time': Timestamp.now(),
-        'title': bookName,
-        'author': bookAuthor,
+        'title': favoriteBook.title,
+        'author': favoriteBook.author,
       });
       print('お気に入り登録完了');
       return true;
@@ -59,20 +44,21 @@ class BookFirestore {
     }
   }
 
-  static Future<dynamic> borrowBook(String newBook, String bookURL,
-      String bookName, String bookAuthor) async {
+  static Future<dynamic> borrowBook(Book borrowBook) async {
     try {
       final CollectionReference _userBooks = _firestoreinstance
           .collection('users')
           .doc(Authentication.myAccount!.id)
           .collection('my_book');
-      _userBooks.doc(newBook).set({
+      _userBooks.doc(borrowBook.id).set({
         'created_time': Timestamp.now(),
-        'imgURL': bookURL,
-        'title': bookName,
-        'author': bookAuthor,
+        'imgURL': borrowBook.imgURL,
+        'title': borrowBook.title,
+        'author': borrowBook.author,
       });
-      borrowedBook.doc(newBook).set({'created_time': Timestamp.now()});
+      borrowBookCollection
+          .doc(borrowBook.id)
+          .set({'created_time': Timestamp.now()});
       print('貸出完了');
       return true;
     } on FirebaseException catch (e) {
@@ -90,7 +76,7 @@ class BookFirestore {
               .collection('my_book')
               .doc(returnBook);
       _userBooks.delete();
-      borrowedBook.doc(returnBook).delete();
+      borrowBookCollection.doc(returnBook).delete();
       print('返却完了');
       return true;
     } on FirebaseException catch (e) {
