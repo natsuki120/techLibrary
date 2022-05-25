@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tech_library/main.dart';
+import 'package:provider/provider.dart';
+import 'package:tech_library/view_models/start_up/sign_up_model.dart';
 
 class RegistraionPage extends StatelessWidget {
   const RegistraionPage({Key? key}) : super(key: key);
@@ -15,14 +15,12 @@ class RegistraionPage extends StatelessWidget {
         margin: EdgeInsets.only(
           top: size.height * 0.3,
         ),
-        //情報入力欄
         child: Card(
-          child: Consumer(
-            builder: (context, ref, child) {
+          child: Consumer<SignUpModel>(
+            builder: (context, model, child) {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    //名前入力欄
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width * 0.1,
@@ -30,7 +28,7 @@ class RegistraionPage extends StatelessWidget {
                         top: size.height * 0.025,
                       ),
                       child: TextFormField(
-                        controller: ref.watch(signupProvider).nameController,
+                        controller: model.nameController,
                         decoration: InputDecoration(
                           hintText: '名前',
                           hintStyle: TextStyle(
@@ -39,7 +37,6 @@ class RegistraionPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    //メアド入力欄
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width * 0.1,
@@ -47,7 +44,7 @@ class RegistraionPage extends StatelessWidget {
                         top: size.height * 0.025,
                       ),
                       child: TextFormField(
-                        controller: ref.watch(signupProvider).emailController,
+                        controller: model.emailController,
                         decoration: InputDecoration(
                           hintText: 'メールアドレス',
                           hintStyle: TextStyle(
@@ -56,7 +53,6 @@ class RegistraionPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    //パスワード入力欄
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width * 0.1,
@@ -64,12 +60,20 @@ class RegistraionPage extends StatelessWidget {
                         top: size.height * 0.025,
                       ),
                       child: TextFormField(
-                        controller:
-                            ref.watch(signupProvider).passwordController,
+                        controller: model.passwordController,
+                        obscureText: model.isObscure,
                         decoration: InputDecoration(
                           hintText: 'パスワード',
                           hintStyle: TextStyle(
                             color: Colors.black.withOpacity(0.2),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(model.isObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              model.makeToCanSee();
+                            },
                           ),
                         ),
                       ),

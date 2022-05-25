@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tech_library/view/start_up/sign_up/sign_up_page.dart';
+import 'package:tech_library/views/start_up/sign_up/sign_up_page.dart';
 
 class Registration extends StatelessWidget {
   const Registration({Key? key}) : super(key: key);
