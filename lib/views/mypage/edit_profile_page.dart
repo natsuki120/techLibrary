@@ -32,7 +32,7 @@ class EditProfilePage extends StatelessWidget {
                       width: size.width * 0.35,
                       height: size.height * 0.3,
                       child: CircleAvatar(
-                        foregroundImage: model.getImage(),
+                        foregroundImage: model.fetchImage(),
                       ),
                     ),
                     onTap: () async {
