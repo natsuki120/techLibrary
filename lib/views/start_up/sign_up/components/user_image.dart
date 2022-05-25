@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tech_library/main.dart';
+import 'package:provider/provider.dart';
+import 'package:tech_library/view_models/start_up/sign_up_model.dart';
 
 class UserImage extends StatelessWidget {
   const UserImage({Key? key}) : super(key: key);
@@ -11,16 +11,16 @@ class UserImage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: size.height * 0.15),
       child: Center(
-        child: Consumer(
-          builder: (context, ref, child) {
+        child: Consumer<SignUpModel>(
+          builder: (context, model, child) {
             return GestureDetector(
               onTap: () {
-                ref.watch(signupProvider).pickImage();
+                model.pickImage();
               },
               child: CircleAvatar(
-                foregroundImage: ref.watch(signupProvider).imageFile == null
+                foregroundImage: model.imageFile == null
                     ? null
-                    : FileImage(ref.watch(signupProvider).imageFile!),
+                    : FileImage(model.imageFile!),
                 radius: 50,
                 child: const Text(
                   '画像を選択してください',
