@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../domain/account.dart';
-import '../account_model.dart';
-import '../edit_profile/edit_profile_page.dart';
+import 'package:tech_library/view_models/account/account_model.dart';
+import 'package:tech_library/views/mypage/edit_profile_page.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -50,7 +49,7 @@ class MyAccount extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditProfilePage(),
+                            builder: (context) => const EditProfilePage(),
                           ),
                         );
                       },
@@ -60,7 +59,6 @@ class MyAccount extends StatelessWidget {
                     create: (_) => AccountModel()..getMyAccount(),
                     child: Consumer<AccountModel>(
                       builder: (context, model, child) {
-                        final Account? usersInfo = model.usersInfo;
                         return Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(top: size.height * 0.12),
@@ -71,11 +69,11 @@ class MyAccount extends StatelessWidget {
                                 width: size.width * 0.35,
                                 child: CircleAvatar(
                                   foregroundImage:
-                                      NetworkImage(usersInfo!.imagePath),
+                                      NetworkImage(model.usersInfo!.imagePath),
                                 ),
                               ),
                               Text(
-                                usersInfo.name,
+                                model.usersInfo!.name,
                                 style: TextStyle(
                                   fontSize: size.height * 0.04,
                                   color: Colors.white.withOpacity(0.9),
