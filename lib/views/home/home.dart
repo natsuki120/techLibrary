@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-import 'package:tech_library/view/contents.dart';
-import '../../search/search_page.dart';
+import 'package:tech_library/views/home/search.dart';
+import 'book_list_page.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,13 +33,22 @@ class Home extends StatelessWidget {
                 ),
               ),
               // 検索窓
-              Search(),
+              const Search(),
             ],
           ),
           // 本の表示
-          const Expanded(
+          Expanded(
             child: SingleChildScrollView(
-              child: Contents(),
+              child: Column(
+                children: const [
+                  BookListPage(title: 'フロントエンド'),
+                  BookListPage(title: 'バックエンド'),
+                  BookListPage(title: 'スマホアプリ'),
+                  BookListPage(title: 'データサイエンス'),
+                  BookListPage(title: '自己啓発'),
+                  BookListPage(title: 'その他'),
+                ],
+              ),
             ),
           ),
         ],
