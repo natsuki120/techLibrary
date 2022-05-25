@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FunctionUtils {
-  static Future<dynamic> getImageFromCamera() async {
+  static Future<dynamic> fetchImageFromCamera() async {
     ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
     return pickedFile;
