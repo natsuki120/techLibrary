@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tech_library/main.dart';
+import 'package:provider/provider.dart';
+import 'package:tech_library/view_models/start_up/sign_in_model.dart';
 
 class CustomCard extends StatefulWidget {
   const CustomCard({Key? key}) : super(key: key);
@@ -13,20 +13,18 @@ class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer(
-      builder: (context, ref, child) {
+    return Consumer<SignInModel>(
+      builder: (context, model, child) {
         return Center(
           child: Container(
             margin: EdgeInsets.only(top: size.height * 0.35),
             width: size.width * 0.9,
             height: size.height * 0.3,
-            //情報入力欄
             child: Card(
               child: Form(
-                key: ref.read(signinProvider).formKey,
+                key: model.formKey,
                 child: Column(
                   children: [
-                    //名前入力欄
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width * 0.1,
@@ -34,7 +32,7 @@ class _CustomCardState extends State<CustomCard> {
                         top: size.height * 0.04,
                       ),
                       child: TextFormField(
-                        controller: ref.read(signinProvider).emailController,
+                        controller: model.emailController,
                         decoration: InputDecoration(
                           hintText: 'メールアドレス',
                           hintStyle: TextStyle(
@@ -43,7 +41,6 @@ class _CustomCardState extends State<CustomCard> {
                         ),
                       ),
                     ),
-                    //パスワード入力欄
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width * 0.1,
@@ -51,11 +48,20 @@ class _CustomCardState extends State<CustomCard> {
                         top: size.height * 0.03,
                       ),
                       child: TextFormField(
-                        controller: ref.read(signinProvider).passwordController,
+                        obscureText: model.isObscure,
+                        controller: model.passwordController,
                         decoration: InputDecoration(
                           hintText: 'パスワード',
                           hintStyle: TextStyle(
                             color: Colors.black.withOpacity(0.2),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(model.isObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              model.makeToCanSee();
+                            },
                           ),
                         ),
                       ),
