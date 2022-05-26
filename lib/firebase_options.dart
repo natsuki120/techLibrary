@@ -32,6 +32,16 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -50,12 +60,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDBo0AfrLI6bCc77k6h_YsL-e16GMskNnA',
-    appId: '1:733169150206:ios:9887e42b8a5d999d271daf',
+    appId: '1:733169150206:ios:79c095b6e25209e5271daf',
     messagingSenderId: '733169150206',
     projectId: 'techlibrary-5488a',
     databaseURL: 'https://techlibrary-5488a-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'techlibrary-5488a.appspot.com',
-    iosClientId: '733169150206-6u1j2413i637gham1o6pfva8oflnp0ne.apps.googleusercontent.com',
-    iosBundleId: 'techLibrary',
+    iosClientId: '733169150206-dghv1s1ogs6vu3lkcda3vq6cfmutqvsu.apps.googleusercontent.com',
+    iosBundleId: 'com.example.techLibrary',
   );
 }
