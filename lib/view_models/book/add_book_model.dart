@@ -25,6 +25,11 @@ class AddBookModel extends ChangeNotifier {
     'その他'
   ];
 
+  void setGenre(String item) {
+    selectedGenre = item;
+    notifyListeners();
+  }
+
   Future addBook() async {
     title = titleController.text;
     author = authorController.text;

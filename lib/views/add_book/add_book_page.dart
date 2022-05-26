@@ -89,7 +89,7 @@ class _AddBookPageState extends State<AddBookPage> {
                               value: item, child: Text(item));
                         }).toList(),
                         onChanged: (genre) {
-                          model.selectedGenre = genre as String;
+                          model.setGenre(genre.toString());
                         },
                         isExpanded: true,
                       ),
