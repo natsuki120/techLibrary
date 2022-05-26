@@ -45,7 +45,6 @@ dependencies:
   cached_network_image:
   search_page:
   provider:
-  build_runner:
 
 dev_dependencies:
   flutter_test:
