@@ -19,7 +19,7 @@ class AddBookModel extends ChangeNotifier {
   List<String> genre = [
     'フロントエンド',
     'バックエンド',
-    'ネイティブアプリ',
+    'スマホアプリ',
     'データサイエンス',
     '自己啓発',
     'その他'
@@ -28,6 +28,15 @@ class AddBookModel extends ChangeNotifier {
   void setGenre(String item) {
     selectedGenre = item;
     notifyListeners();
+  }
+
+  void pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+      notifyListeners();
+    }
   }
 
   Future addBook() async {
@@ -54,18 +63,10 @@ class AddBookModel extends ChangeNotifier {
 
       authorController.clear();
       titleController.clear();
-      imageFile!.delete;
+      imageFile = null;
+      notifyListeners();
     } else {
       throw Error();
-    }
-  }
-
-  void pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
-      notifyListeners();
     }
   }
 }
