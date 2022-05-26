@@ -33,7 +33,7 @@ class SignUpModel extends ChangeNotifier {
   }
 
   void pickImage() async {
-    var result = await FunctionUtils.fetchImageFromCamera();
+    var result = await FunctionUtils.fetchImageFromGallery();
     if (result != null) {
       imageFile = File(result.path);
       notifyListeners();

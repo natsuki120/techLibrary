@@ -44,7 +44,7 @@ class EditProfileModel extends ChangeNotifier {
   }
 
   Future pickImage() async {
-    final pickedFile = await FunctionUtils.fetchImageFromCamera();
+    final pickedFile = await FunctionUtils.fetchImageFromGallery();
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
     }
