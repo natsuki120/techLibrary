@@ -41,6 +41,7 @@ class BookListModel extends ChangeNotifier {
             imgURL: data['imgURL']);
       }).toList();
       this.genreBooks = genreBooks;
+      notifyListeners();
     });
   }
 
