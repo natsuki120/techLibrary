@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_library/utils/authentication.dart';
-import 'package:tech_library/views/account/components/delete.dart';
+import 'package:tech_library/views/account/components/delete_page.dart';
 import 'package:tech_library/views/account/edit_profile_page.dart';
 import 'package:tech_library/views/start_up/sign_in/sign_in_page.dart';
 
@@ -80,7 +80,7 @@ class DrawerListPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Delete(),
+                            builder: (context) => const DeletePage(),
                           ),
                         );
                         Authentication.emailController.clear();
