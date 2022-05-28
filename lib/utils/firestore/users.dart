@@ -24,4 +24,8 @@ class UserFirestore {
     );
     Authentication.myAccount = myAccount;
   }
+
+  static Future<dynamic> deleteUser() async {
+    users.doc(Authentication.myAccount!.id).delete();
+  }
 }
