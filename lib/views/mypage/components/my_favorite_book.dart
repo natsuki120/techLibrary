@@ -62,7 +62,7 @@ class MyFavoriteBook extends StatelessWidget {
           child: Consumer<BookListModel>(
             builder: (context, model, child) {
               model.fetchMyFavoriteBook();
-              final List<Widget> widgets = model.usersFavoriteBook!.map(
+              final List<Widget> widgets = model.usersFavoriteBook.map(
                 (favoriteBook) {
                   return Stack(
                     children: [
