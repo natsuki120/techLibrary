@@ -27,10 +27,7 @@ class AllMyFavoriteBookPage extends StatelessWidget {
         child: Consumer<BookListModel>(
           builder: (context, model, child) {
             model.fetchMyFavoriteBook();
-            if (model.usersFavoriteBook == null) {
-              return const Text('お気に入りの本はありません');
-            }
-            final List<Widget> widgets = model.usersFavoriteBook!.map(
+            final List<Widget> widgets = model.usersFavoriteBook.map(
               (favoriteBook) {
                 return Stack(
                   children: [
