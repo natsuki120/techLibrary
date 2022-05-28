@@ -10,15 +10,15 @@ Flutter に興味を持ち、個人開発したものを載せました。
 リアルタイムで描画されるため、いちいちリロードしなくてもよい。検索機能も実装されているのでどの本が置いてあるのか調べることができる。
 
 # 使用技術、環境
-[✓] Flutter (Channel stable, 3.0.1, on macOS 12.3.1 21E258 darwin-arm, locale ja-JP)
-[✓] Android toolchain - develop for Android devices (Android SDK version 31.0.0)
-[✓] Xcode - develop for iOS and macOS (Xcode 13.3.1)
-[✓] Chrome - develop for the web
-[✓] Android Studio (version 2021.1)
-[✓] VS Code (version 1.67.2)
-[✓] Connected device (3 available)
-[✓] HTTP Host Availability
-Firebase(Firestore,Storage,Authentication)
+- [✓] Flutter (Channel stable, 3.0.1, on macOS 12.3.1 21E258 darwin-arm, locale ja-JP)
+- [✓] Android toolchain - develop for Android devices (Android SDK version 31.0.0)
+- [✓] Xcode - develop for iOS and macOS (Xcode 13.3.1)
+- [✓] Chrome - develop for the web
+- [✓] Android Studio (version 2021.1)
+- [✓] VS Code (version 1.67.2)
+- [✓] Connected device (3 available)
+- [✓] HTTP Host Availability
+- Firebase(Firestore,Storage,Authentication)
 
 # 機能
 - ログイン機能、新規登録機能
