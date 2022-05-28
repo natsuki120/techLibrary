@@ -26,6 +26,10 @@ class Authentication {
     return userCredential;
   }
 
+  static Future<void> logOut() async {
+    await _firebaseAuth.signOut();
+  }
+
   static Future<void> signOut() async {
     AuthCredential credential = EmailAuthProvider.credential(
         email: emailController.text, password: passwordController.text);
