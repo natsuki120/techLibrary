@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_library/utils/authentication.dart';
-import 'package:tech_library/views/mypage/components/delete.dart';
-import 'package:tech_library/views/mypage/edit_profile_page.dart';
+import 'package:tech_library/views/account/components/delete.dart';
+import 'package:tech_library/views/account/edit_profile_page.dart';
 import 'package:tech_library/views/start_up/sign_in/sign_in_page.dart';
 
 class DrawerListPage extends StatelessWidget {
@@ -44,7 +43,7 @@ class DrawerListPage extends StatelessWidget {
                     TextButton(
                       child: const Text("OK"),
                       onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
+                        await Authentication.logOut();
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (_) => const SignInPage(),

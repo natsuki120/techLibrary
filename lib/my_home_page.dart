@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_library/views/add_book/add_book_page.dart';
 import 'package:tech_library/views/home/home.dart';
-import 'package:tech_library/views/mypage/account_page.dart';
+import 'package:tech_library/views/account/account_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined), label: 'MyPage'),
+              icon: Icon(Icons.account_circle_outlined), label: 'Account'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

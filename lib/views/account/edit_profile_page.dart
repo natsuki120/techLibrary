@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_library/error/show_error_dialog.dart';
-import 'package:tech_library/view_models/account/edit_profile_model.dart';
+import 'package:tech_library/view_models/account_model.dart';
 
 class EditProfilePage extends StatelessWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -19,14 +19,13 @@ class EditProfilePage extends StatelessWidget {
         elevation: 0.0,
       ),
       body: ChangeNotifierProvider(
-        create: (_) => EditProfileModel(),
-        child: Consumer<EditProfileModel>(
+        create: (_) => AccountModel(),
+        child: Consumer<AccountModel>(
           builder: (context, model, child) {
-            model.getMyAccount();
+            model.fetchMyAccount();
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // 登録した時の写真
                   GestureDetector(
                     child: SizedBox(
                       width: size.width * 0.35,
@@ -39,7 +38,6 @@ class EditProfilePage extends StatelessWidget {
                       await model.pickImage();
                     },
                   ),
-                  // 名前
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: size.width * 0.1),
                     child: TextFormField(
