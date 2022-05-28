@@ -8,8 +8,8 @@ import 'package:tech_library/utils/authentication.dart';
 import 'package:tech_library/utils/firestore/users.dart';
 import '../../start_up/sign_in/sign_in_page.dart';
 
-class Delete extends StatelessWidget {
-  const Delete({Key? key}) : super(key: key);
+class DeletePage extends StatelessWidget {
+  const DeletePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
