@@ -89,7 +89,7 @@ class BookListPage extends StatelessWidget {
                                   const Icon(Icons.error),
                             ),
                           ),
-                          onTap: () async {
+                          onTap: () {
                             model.borrowBooks.contains(book.id)
                                 ? Navigator.push(
                                     context,
