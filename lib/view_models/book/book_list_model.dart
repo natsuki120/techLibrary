@@ -8,7 +8,7 @@ class BookListModel extends ChangeNotifier {
   List borrowBooks = [];
   List favoriteBooks = [];
   List<Book> genreBooks = [];
-  List<Book>? usersFavoriteBook = [];
+  List<Book> usersFavoriteBook = [];
   static final _firestoreInstance = FirebaseFirestore.instance;
 
   void fetchBook() async {
@@ -26,23 +26,22 @@ class BookListModel extends ChangeNotifier {
   }
 
   void fetchGenreBook(String genre) async {
-    Stream<QuerySnapshot<Map<String, dynamic>>> genreBooks = _firestoreInstance
+    final QuerySnapshot snapshot = await _firestoreInstance
         .collection('book')
         .where('genre', isEqualTo: genre)
-        .snapshots();
+        .get();
 
-    genreBooks.listen((QuerySnapshot snapshot) {
-      final genreBooks = snapshot.docs.map((DocumentSnapshot document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        return Book(
-            id: document.id,
-            title: data['title'],
-            author: data['author'],
-            imgURL: data['imgURL']);
-      }).toList();
-      this.genreBooks = genreBooks;
-      notifyListeners();
-    });
+    final List<Book> genreBooks =
+        snapshot.docs.map((DocumentSnapshot document) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      return Book(
+          id: document.id,
+          title: data['title'],
+          author: data['author'],
+          imgURL: data['imgURL']);
+    }).toList();
+    this.genreBooks = genreBooks;
+    notifyListeners();
   }
 
   void fetchBorrowBookList() async {
@@ -50,19 +49,15 @@ class BookListModel extends ChangeNotifier {
         FirebaseFirestore.instance.collection('borrowBook').snapshots();
     borrowBook.listen((QuerySnapshot snap) {
       borrowBooks.clear();
-      final borrowBookCollection = snap.docs.map((DocumentSnapshot doc) {
+      snap.docs.map((DocumentSnapshot doc) {
         borrowBooks.add(doc.id);
         return borrowBooks;
-      });
-      if (kDebugMode) {
-        print(borrowBookCollection);
-      }
+      }).toList();
       notifyListeners();
     });
   }
 
-  void fetchFavoriteBookList() async {
-    // お気に入り本の取得、更新
+  void fetchFavoriteBookList() {
     Stream<QuerySnapshot<Map<String, dynamic>>> favoriteBookList =
         _firestoreInstance
             .collection('users')
@@ -71,18 +66,15 @@ class BookListModel extends ChangeNotifier {
             .snapshots();
     favoriteBookList.listen((QuerySnapshot snap) {
       favoriteBooks.clear();
-      final favoriteBookCollection = snap.docs.map((DocumentSnapshot doc) {
+      snap.docs.map((DocumentSnapshot doc) {
         favoriteBooks.add(doc.id);
         return favoriteBooks;
-      });
-      if (kDebugMode) {
-        print(favoriteBookCollection);
-      }
+      }).toList();
       notifyListeners();
     });
   }
 
-  void fetchMyFavoriteBook() async {
+  void fetchMyFavoriteBook() {
     final Stream<QuerySnapshot<Map<String, dynamic>>> usersFavoriteBook =
         _firestoreInstance
             .collection('users')
