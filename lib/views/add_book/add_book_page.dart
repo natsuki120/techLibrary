@@ -86,7 +86,9 @@ class _AddBookPageState extends State<AddBookPage> {
                         value: model.selectedGenre,
                         items: model.genre.map((String item) {
                           return DropdownMenuItem(
-                              value: item, child: Text(item));
+                            value: item,
+                            child: Text(item),
+                          );
                         }).toList(),
                         onChanged: (genre) {
                           model.setGenre(genre.toString());
