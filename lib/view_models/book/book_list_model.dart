@@ -12,17 +12,15 @@ class BookListModel extends ChangeNotifier {
   static final _firestoreInstance = FirebaseFirestore.instance;
 
   void fetchBook() async {
-    Stream<QuerySnapshot<Map<String, dynamic>>> books =
-        _firestoreInstance.collection('book').snapshots();
+    final QuerySnapshot snapshot =
+        await _firestoreInstance.collection('book').get();
 
-    books.listen((QuerySnapshot snapshot) {
-      final books = snapshot.docs.map((DocumentSnapshot document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        return Book(
-            id: document.id, title: data['title'], imgURL: data['imgURL']);
-      }).toList();
-      this.books = books;
-    });
+    final books = snapshot.docs.map((DocumentSnapshot document) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      return Book(
+          id: document.id, title: data['title'], imgURL: data['imgURL']);
+    }).toList();
+    this.books = books;
   }
 
   void fetchGenreBook(String genre) async {
@@ -44,54 +42,47 @@ class BookListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchBorrowBookList() async {
-    Stream<QuerySnapshot> borrowBook =
-        FirebaseFirestore.instance.collection('borrowBook').snapshots();
-    borrowBook.listen((QuerySnapshot snap) {
-      borrowBooks.clear();
-      snap.docs.map((DocumentSnapshot doc) {
-        borrowBooks.add(doc.id);
-        return borrowBooks;
-      }).toList();
-      notifyListeners();
-    });
+  void fetchBorrowBook() async {
+    final QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('borrowBook').get();
+    borrowBooks.clear();
+    snapshot.docs.map((DocumentSnapshot doc) {
+      borrowBooks.add(doc.id);
+      return borrowBooks;
+    }).toList();
+    notifyListeners();
   }
 
-  void fetchFavoriteBookList() {
-    Stream<QuerySnapshot<Map<String, dynamic>>> favoriteBookList =
-        _firestoreInstance
-            .collection('users')
-            .doc(Authentication.myAccount!.id)
-            .collection('favorite')
-            .snapshots();
-    favoriteBookList.listen((QuerySnapshot snap) {
-      favoriteBooks.clear();
-      snap.docs.map((DocumentSnapshot doc) {
-        favoriteBooks.add(doc.id);
-        return favoriteBooks;
-      }).toList();
-      notifyListeners();
-    });
+  void fetchFavoriteBook() async {
+    final QuerySnapshot snapshot = await _firestoreInstance
+        .collection('users')
+        .doc(Authentication.myAccount!.id)
+        .collection('favorite')
+        .get();
+    favoriteBooks.clear();
+    snapshot.docs.map((DocumentSnapshot doc) {
+      favoriteBooks.add(doc.id);
+      return favoriteBooks;
+    }).toList();
+    notifyListeners();
   }
 
-  void fetchMyFavoriteBook() {
-    final Stream<QuerySnapshot<Map<String, dynamic>>> usersFavoriteBook =
-        _firestoreInstance
-            .collection('users')
-            .doc(Authentication.myAccount!.id)
-            .collection('favorite')
-            .snapshots();
-    usersFavoriteBook.listen((QuerySnapshot snapshot) {
-      final usersFavoriteBook = snapshot.docs.map((DocumentSnapshot document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        return Book(
-            id: document.id,
-            title: data['title'],
-            author: data['author'],
-            imgURL: data['imgURL']);
-      }).toList();
-      this.usersFavoriteBook = usersFavoriteBook;
-      notifyListeners();
-    });
+  // 参照先にfetchBorrowBookがあるため、AccountModelではなくBookListModel内に記述
+  void fetchMyFavoriteBook() async {
+    final QuerySnapshot snapshot = await _firestoreInstance
+        .collection('users')
+        .doc(Authentication.myAccount!.id)
+        .collection('favorite')
+        .get();
+    final usersFavoriteBook = snapshot.docs.map((DocumentSnapshot document) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+      return Book(
+          id: document.id,
+          title: data['title'],
+          author: data['author'],
+          imgURL: data['imgURL']);
+    }).toList();
+    this.usersFavoriteBook = usersFavoriteBook;
+    notifyListeners();
   }
 }
