@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_library/view_models/account/account_model.dart';
+import 'package:tech_library/view_models/account_model.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -18,9 +18,10 @@ class MyAccount extends StatelessWidget {
             ),
           ),
           child: ChangeNotifierProvider<AccountModel>(
-            create: (_) => AccountModel()..getMyAccount(),
+            create: (_) => AccountModel(),
             child: Consumer<AccountModel>(
               builder: (context, model, child) {
+                model.fetchMyAccount();
                 return Container(
                   alignment: Alignment.center,
                   child: Column(

@@ -90,9 +90,10 @@ class CheckedOutBookPage extends StatelessWidget {
             ],
           ),
           ChangeNotifierProvider(
-            create: (_) => BookListModel()..fetchFavoriteBookList(),
+            create: (_) => BookListModel(),
             child: Consumer<BookListModel>(
               builder: (context, model, child) {
+                model.fetchFavoriteBook();
                 List favoriteBooks = model.favoriteBooks;
                 return Container(
                   alignment: Alignment.centerRight,

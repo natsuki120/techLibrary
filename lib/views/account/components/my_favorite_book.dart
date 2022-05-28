@@ -58,9 +58,10 @@ class MyFavoriteBook extends StatelessWidget {
           ],
         ),
         ChangeNotifierProvider(
-          create: (_) => BookListModel()..fetchBorrowBookList(),
+          create: (_) => BookListModel(),
           child: Consumer<BookListModel>(
             builder: (context, model, child) {
+              model.fetchBorrowBook();
               model.fetchMyFavoriteBook();
               final List<Widget> widgets = model.usersFavoriteBook.map(
                 (favoriteBook) {

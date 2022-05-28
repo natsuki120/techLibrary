@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:tech_library/view_models/account/account_model.dart';
+import 'package:tech_library/view_models/account_model.dart';
 import 'package:tech_library/views/book_detail/return_book.dart';
 
 class AllMyBookPage extends StatelessWidget {
@@ -22,10 +22,11 @@ class AllMyBookPage extends StatelessWidget {
         ),
       ),
       body: ChangeNotifierProvider(
-        create: (_) => AccountModel()..getMyBook(),
+        create: (_) => AccountModel(),
         child: Consumer<AccountModel>(
           builder: (context, model, child) {
-            final List<Widget> widgets = model.usersBook!
+            model.fetchMyBook();
+            final List<Widget> widgets = model.usersBook
                 .map(
                   (myBook) => Stack(
                     children: [

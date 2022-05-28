@@ -57,9 +57,10 @@ class BookListPage extends StatelessWidget {
           ],
         ),
         ChangeNotifierProvider(
-          create: (_) => BookListModel()..fetchBorrowBookList(),
+          create: (_) => BookListModel(),
           child: Consumer<BookListModel>(
             builder: (context, model, child) {
+              model.fetchBorrowBook();
               model.fetchGenreBook(title);
               final List<Widget> widgets = model.genreBooks
                   .map(
