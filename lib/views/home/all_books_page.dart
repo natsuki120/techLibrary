@@ -7,13 +7,15 @@ import 'package:tech_library/views/book_detail/borrow_book_page.dart';
 import 'package:tech_library/views/book_detail/checked_out_book_page.dart';
 
 class AllBookPage extends StatelessWidget {
-  const AllBookPage({
-    Key? key,
-    required this.genre,
-    required this.collection,
-  }) : super(key: key);
+  const AllBookPage(
+      {Key? key,
+      required this.genre,
+      required this.collection,
+      required this.model})
+      : super(key: key);
   final String genre;
   final String collection;
+  final BookListModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,8 @@ class AllBookPage extends StatelessWidget {
           colors: [Colors.blue, Colors.lightBlue.shade200],
         ),
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => BookListModel(),
+      body: ChangeNotifierProvider.value(
+        value: BookListModel(),
         child: Consumer<BookListModel>(
           builder: (context, model, child) {
             model.fetchBorrowBook();
@@ -69,15 +71,17 @@ class AllBookPage extends StatelessWidget {
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      CheckedOutBookPage(book: book),
+                                  builder: (context) => CheckedOutBookPage(
+                                    book: book,
+                                    model: model,
+                                  ),
                                 ),
                               )
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      BorrowBookPage(book: book),
+                                      BorrowBookPage(book: book, model: model),
                                 ),
                               );
                       },

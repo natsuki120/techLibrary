@@ -7,8 +7,10 @@ import 'package:tech_library/utils/firestore/books.dart';
 import 'package:tech_library/view_models/book/book_list_model.dart';
 
 class BorrowBookPage extends StatelessWidget {
-  const BorrowBookPage({Key? key, required this.book}) : super(key: key);
+  const BorrowBookPage({Key? key, required this.book, required this.model})
+      : super(key: key);
   final Book book;
+  final BookListModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -101,33 +103,28 @@ class BorrowBookPage extends StatelessWidget {
               ),
             ],
           ),
-          ChangeNotifierProvider(
-            create: (_) => BookListModel(),
-            child: Consumer<BookListModel>(
-              builder: (context, model, child) {
-                model.fetchFavoriteBook();
-                return Container(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    child: model.favoriteBooks.contains(book.id)
-                        ? const Icon(
-                            Icons.favorite,
-                            size: 60,
-                            color: Colors.red,
-                          )
-                        : const Icon(
-                            Icons.favorite_border,
-                            size: 60,
-                            color: Colors.grey,
-                          ),
-                    onTap: () async {
-                      model.favoriteBooks.contains(book.id)
-                          ? await BookFirestore.removeFavoriteBook(book.id)
-                          : await BookFirestore.fetchFavoriteBook(book);
-                    },
-                  ),
-                );
-              },
+          ChangeNotifierProvider.value(
+            value: BookListModel()..fetchFavoriteBook(),
+            child: Container(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                child: model.favoriteBooks.contains(book.id)
+                    ? const Icon(
+                        Icons.favorite,
+                        size: 60,
+                        color: Colors.red,
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
+                onTap: () async {
+                  model.favoriteBooks.contains(book.id)
+                      ? await BookFirestore.removeFavoriteBook(book.id)
+                      : await BookFirestore.fetchFavoriteBook(book);
+                },
+              ),
             ),
           )
         ],

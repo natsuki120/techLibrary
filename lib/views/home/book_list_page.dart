@@ -13,56 +13,57 @@ class BookListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ChangeNotifierProvider.value(
+      value: BookListModel()
+        ..fetchGenreBook(title)
+        ..fetchBorrowBook(),
+      child: Consumer<BookListModel>(builder: (context, model, child) {
+        return Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 20, left: 25),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.blue.withOpacity(0.5),
-                  decorationThickness: 5,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20, right: 10),
-              child: ElevatedButton(
-                child: const Text('More'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.lightBlueAccent.withOpacity(0.9),
-                  onPrimary: Colors.white,
-                  shape: const StadiumBorder(),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AllBookPage(
-                        genre: title,
-                        collection: 'book',
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 20, left: 25),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.blue.withOpacity(0.5),
+                      decorationThickness: 5,
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20, right: 10),
+                  child: ElevatedButton(
+                    child: const Text('More'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlueAccent.withOpacity(0.9),
+                      onPrimary: Colors.white,
+                      shape: const StadiumBorder(),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllBookPage(
+                            genre: title,
+                            collection: 'book',
+                            model: model,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        ChangeNotifierProvider(
-          create: (_) => BookListModel(),
-          child: Consumer<BookListModel>(
-            builder: (context, model, child) {
-              model.fetchBorrowBook();
-              model.fetchGenreBook(title);
-              final List<Widget> widgets = model.genreBooks
+            Builder(builder: (context) {
+              List<Widget> widgets = model.genreBooks
                   .map(
                     (book) => Stack(
                       children: [
@@ -95,15 +96,19 @@ class BookListPage extends StatelessWidget {
                                 ? Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          CheckedOutBookPage(book: book),
+                                      builder: (context) => CheckedOutBookPage(
+                                        book: book,
+                                        model: model,
+                                      ),
                                     ),
                                   )
                                 : Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          BorrowBookPage(book: book),
+                                      builder: (context) => BorrowBookPage(
+                                        book: book,
+                                        model: model,
+                                      ),
                                     ),
                                   );
                           },
@@ -132,10 +137,10 @@ class BookListPage extends StatelessWidget {
                   ),
                 ),
               );
-            },
-          ),
-        ),
-      ],
+            })
+          ],
+        );
+      }),
     );
   }
 }
