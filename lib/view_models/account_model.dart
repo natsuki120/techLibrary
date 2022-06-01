@@ -14,38 +14,42 @@ class AccountModel extends ChangeNotifier {
   TextEditingController nameController =
       TextEditingController(text: Authentication.myAccount!.name);
 
-  void fetchMyAccount() async {
-    final DocumentSnapshot snapshot = await _firestoreInstance
+  void fetchMyAccount() {
+    final Stream<DocumentSnapshot> snapshots = _firestoreInstance
         .collection('users')
         .doc(Authentication.myAccount!.id)
-        .get();
+        .snapshots();
 
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    Account usersInfo = Account(
-      name: data['name'],
-      imagePath: data['image_path'],
-    );
-    this.usersInfo = usersInfo;
-    notifyListeners();
+    snapshots.listen((DocumentSnapshot snapshot) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      Account usersInfo = Account(
+        name: data['name'],
+        imagePath: data['image_path'],
+      );
+      this.usersInfo = usersInfo;
+      notifyListeners();
+    });
   }
 
-  void fetchMyBook() async {
-    final QuerySnapshot snapshot = await _firestoreInstance
+  void fetchMyBook() {
+    final Stream<QuerySnapshot> snapshots = _firestoreInstance
         .collection('users')
         .doc(Authentication.myAccount!.id)
         .collection('my_book')
-        .get();
+        .snapshots();
 
-    final usersBook = snapshot.docs.map((DocumentSnapshot document) {
-      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-      return Book(
-          id: document.id,
-          title: data['title'],
-          author: data['author'],
-          imgURL: data['imgURL']);
-    }).toList();
-    this.usersBook = usersBook;
-    notifyListeners();
+    snapshots.listen((QuerySnapshot snapshot) {
+      final usersBook = snapshot.docs.map((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        return Book(
+            id: document.id,
+            title: data['title'],
+            author: data['author'],
+            imgURL: data['imgURL']);
+      }).toList();
+      this.usersBook = usersBook;
+      notifyListeners();
+    });
   }
 
   ImageProvider fetchImage() {
