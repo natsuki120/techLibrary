@@ -63,7 +63,6 @@ class ReturnBook extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // 借りるボタン
                       GestureDetector(
                         child: Center(
                           child: Container(
@@ -109,10 +108,9 @@ class ReturnBook extends StatelessWidget {
             ],
           ),
           ChangeNotifierProvider(
-            create: (_) => BookListModel(),
+            create: (_) => BookListModel()..fetchFavoriteBook(),
             child: Consumer<BookListModel>(
               builder: (context, model, child) {
-                model.fetchFavoriteBook();
                 List favoriteBooks = model.favoriteBooks;
                 return Container(
                   alignment: Alignment.centerRight,
