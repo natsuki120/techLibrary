@@ -83,6 +83,12 @@ class TimeLineModel extends ChangeNotifier {
     final DocumentReference snapshot =
         _firestoreInstance.collection('posts').doc(post.id);
     snapshot.delete();
+    final usersPostDoc = _firestoreInstance
+        .collection('users')
+        .doc(Authentication.myAccount!.id)
+        .collection('usersPosts')
+        .doc();
+    usersPostDoc.delete();
   }
 
   void setComment(Post post) async {
@@ -90,11 +96,6 @@ class TimeLineModel extends ChangeNotifier {
         .collection('posts')
         .doc(post.id)
         .collection('postsComments')
-        .doc();
-    final usersCommentDoc = _firestoreInstance
-        .collection('users')
-        .doc(Authentication.myAccount!.id)
-        .collection('usersComments')
         .doc();
 
     await postCommentDoc.set({
@@ -104,10 +105,6 @@ class TimeLineModel extends ChangeNotifier {
       'author_image': Authentication.myAccount!.imagePath,
       'text': commentController.text,
       'createdAt': Timestamp.now(),
-    });
-
-    await usersCommentDoc.set({
-      'commentsId': postCommentDoc.id,
     });
     commentController.clear();
     notifyListeners();
