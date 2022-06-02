@@ -76,15 +76,15 @@ class Search extends StatelessWidget {
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CheckedOutBookPage(
-                                      book: book, model: model),
+                                  builder: (context) =>
+                                      CheckedOutBookPage(book: book),
                                 ),
                               )
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      BorrowBookPage(book: book, model: model),
+                                      BorrowBookPage(book: book),
                                 ),
                               );
                       },
