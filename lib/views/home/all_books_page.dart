@@ -29,12 +29,12 @@ class AllBookPage extends StatelessWidget {
           colors: [Colors.blue, Colors.lightBlue.shade200],
         ),
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => BookListModel(),
+      body: ChangeNotifierProvider.value(
+        value: BookListModel()
+          ..fetchBorrowBook()
+          ..fetchGenreBook(genre),
         child: Consumer<BookListModel>(
           builder: (context, model, child) {
-            model.fetchBorrowBook();
-            model.fetchGenreBook(genre);
             final List<Widget> widgets = model.genreBooks.map(
               (book) {
                 return Stack(

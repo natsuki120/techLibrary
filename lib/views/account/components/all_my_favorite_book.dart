@@ -34,11 +34,11 @@ class AllMyFavoriteBookPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: 30,
+                        margin: EdgeInsets.symmetric(
+                          vertical: size.height * 0.03,
+                          horizontal: size.width * 0.07,
                         ),
-                        height: 200,
+                        height: size.height * 0.3,
                         width: size.width * 0.35,
                         decoration: BoxDecoration(
                           boxShadow: [

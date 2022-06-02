@@ -88,11 +88,9 @@ class BorrowBookPage extends StatelessWidget {
                         ),
                         onTap: () async {
                           EasyLoading.show(status: 'Loading...');
-                          var result = await BookFirestore.borrowBook(book);
+                          await BookFirestore.borrowBook(book);
                           EasyLoading.showSuccess('貸出に成功しました');
-                          if (result == true) {
-                            Navigator.pop(context);
-                          }
+                          Navigator.pop(context);
                         },
                       )
                     ],
@@ -101,34 +99,31 @@ class BorrowBookPage extends StatelessWidget {
               ),
             ],
           ),
-          ChangeNotifierProvider(
-            create: (_) => BookListModel(),
-            child: Consumer<BookListModel>(
-              builder: (context, model, child) {
-                model.fetchFavoriteBook();
-                return Container(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    child: model.favoriteBooks.contains(book.id)
-                        ? const Icon(
-                            Icons.favorite,
-                            size: 60,
-                            color: Colors.red,
-                          )
-                        : const Icon(
-                            Icons.favorite_border,
-                            size: 60,
-                            color: Colors.grey,
-                          ),
-                    onTap: () async {
-                      model.favoriteBooks.contains(book.id)
-                          ? await BookFirestore.removeFavoriteBook(book.id)
-                          : await BookFirestore.fetchFavoriteBook(book);
-                    },
-                  ),
-                );
-              },
-            ),
+          ChangeNotifierProvider.value(
+            value: BookListModel()..fetchFavoriteBook(),
+            child: Consumer<BookListModel>(builder: (context, model, child) {
+              return Container(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  child: model.favoriteBooks.contains(book.id)
+                      ? const Icon(
+                          Icons.favorite,
+                          size: 60,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                  onTap: () async {
+                    model.favoriteBooks.contains(book.id)
+                        ? await BookFirestore.removeFavoriteBook(book.id)
+                        : await BookFirestore.fetchFavoriteBook(book);
+                  },
+                ),
+              );
+            }),
           )
         ],
       ),

@@ -12,12 +12,12 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider(
-      create: (_) => BookListModel(),
+    return ChangeNotifierProvider.value(
+      value: BookListModel()
+        ..fetchBook()
+        ..fetchBorrowBook(),
       child: Consumer<BookListModel>(
         builder: (context, model, child) {
-          model.fetchBook();
-          model.fetchBorrowBook();
           return GestureDetector(
             child: Container(
               alignment: Alignment.center,

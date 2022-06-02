@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tech_library/views/add_book/add_book_page.dart';
 import 'package:tech_library/views/home/home.dart';
 import 'package:tech_library/views/account/account_page.dart';
+import 'package:tech_library/views/time_line/time_line_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -24,6 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _widgetoptions = <Widget>[
     const Home(),
     const AddBookPage(),
+    const TimeLinePage(),
     const AccountPage(),
   ];
   @override
@@ -34,9 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: _widgetoptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+          BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'bbs'),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined), label: 'Account'),
         ],

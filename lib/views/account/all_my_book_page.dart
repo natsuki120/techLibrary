@@ -21,11 +21,10 @@ class AllMyBookPage extends StatelessWidget {
           colors: [Colors.blue, Colors.lightBlue.shade200],
         ),
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => AccountModel(),
+      body: ChangeNotifierProvider.value(
+        value: AccountModel()..fetchMyBook(),
         child: Consumer<AccountModel>(
           builder: (context, model, child) {
-            model.fetchMyBook();
             final List<Widget> widgets = model.usersBook
                 .map(
                   (myBook) => Stack(
@@ -34,7 +33,7 @@ class AllMyBookPage extends StatelessWidget {
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                             vertical: 20,
-                            horizontal: 30,
+                            horizontal: 25,
                           ),
                           height: 200,
                           width: size.width * 0.35,

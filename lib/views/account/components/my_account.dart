@@ -17,11 +17,10 @@ class MyAccount extends StatelessWidget {
               colors: [Colors.blue, Colors.lightBlue.shade200],
             ),
           ),
-          child: ChangeNotifierProvider<AccountModel>(
-            create: (_) => AccountModel(),
+          child: ChangeNotifierProvider.value(
+            value: AccountModel()..fetchMyAccount(),
             child: Consumer<AccountModel>(
               builder: (context, model, child) {
-                model.fetchMyAccount();
                 return Container(
                   alignment: Alignment.center,
                   child: Column(
@@ -29,18 +28,22 @@ class MyAccount extends StatelessWidget {
                       SizedBox(
                         height: size.height * 0.23,
                         width: size.width * 0.35,
-                        child: CircleAvatar(
-                          foregroundImage:
-                              NetworkImage(model.usersInfo!.imagePath),
-                        ),
+                        child: model.usersInfo != null
+                            ? CircleAvatar(
+                                foregroundImage:
+                                    NetworkImage(model.usersInfo!.imagePath),
+                              )
+                            : Container(),
                       ),
-                      Text(
-                        model.usersInfo!.name,
-                        style: TextStyle(
-                          fontSize: size.height * 0.04,
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                      )
+                      model.usersInfo != null
+                          ? Text(
+                              model.usersInfo!.name,
+                              style: TextStyle(
+                                fontSize: size.height * 0.04,
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 );

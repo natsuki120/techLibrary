@@ -22,7 +22,6 @@ class ReturnBook extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // 本
           Container(
             height: size.height * 0.35,
             padding: EdgeInsets.only(bottom: size.height * 0.04),
@@ -39,7 +38,6 @@ class ReturnBook extends StatelessWidget {
               ),
             ),
           ),
-          // 詳細部分
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -63,7 +61,6 @@ class ReturnBook extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // 借りるボタン
                       GestureDetector(
                         child: Center(
                           child: Container(
@@ -108,11 +105,10 @@ class ReturnBook extends StatelessWidget {
               ),
             ],
           ),
-          ChangeNotifierProvider(
-            create: (_) => BookListModel(),
+          ChangeNotifierProvider.value(
+            value: BookListModel()..fetchFavoriteBook(),
             child: Consumer<BookListModel>(
               builder: (context, model, child) {
-                model.fetchFavoriteBook();
                 List favoriteBooks = model.favoriteBooks;
                 return Container(
                   alignment: Alignment.centerRight,
@@ -137,7 +133,7 @@ class ReturnBook extends StatelessWidget {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );

@@ -18,11 +18,10 @@ class EditProfilePage extends StatelessWidget {
         ),
         elevation: 0.0,
       ),
-      body: ChangeNotifierProvider(
-        create: (_) => AccountModel(),
+      body: ChangeNotifierProvider.value(
+        value: AccountModel()..fetchMyAccount(),
         child: Consumer<AccountModel>(
           builder: (context, model, child) {
-            model.fetchMyAccount();
             return SingleChildScrollView(
               child: Column(
                 children: [

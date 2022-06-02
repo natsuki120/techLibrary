@@ -89,35 +89,31 @@ class CheckedOutBookPage extends StatelessWidget {
               ),
             ],
           ),
-          ChangeNotifierProvider(
-            create: (_) => BookListModel(),
-            child: Consumer<BookListModel>(
-              builder: (context, model, child) {
-                model.fetchFavoriteBook();
-                List favoriteBooks = model.favoriteBooks;
-                return Container(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    child: favoriteBooks.contains(book.id)
-                        ? const Icon(
-                            Icons.favorite,
-                            size: 60,
-                            color: Colors.red,
-                          )
-                        : const Icon(
-                            Icons.favorite_border,
-                            size: 60,
-                            color: Colors.grey,
-                          ),
-                    onTap: () async {
-                      favoriteBooks.contains(book.id)
-                          ? await BookFirestore.removeFavoriteBook(book.id)
-                          : await BookFirestore.fetchFavoriteBook(book);
-                    },
-                  ),
-                );
-              },
-            ),
+          ChangeNotifierProvider.value(
+            value: BookListModel()..fetchFavoriteBook(),
+            child: Consumer<BookListModel>(builder: (context, model, child) {
+              return Container(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  child: model.favoriteBooks.contains(book.id)
+                      ? const Icon(
+                          Icons.favorite,
+                          size: 60,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                  onTap: () async {
+                    model.favoriteBooks.contains(book.id)
+                        ? await BookFirestore.removeFavoriteBook(book.id)
+                        : await BookFirestore.fetchFavoriteBook(book);
+                  },
+                ),
+              );
+            }),
           )
         ],
       ),
