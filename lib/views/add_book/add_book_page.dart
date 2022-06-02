@@ -69,18 +69,6 @@ class _AddBookPageState extends State<AddBookPage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      TextFormField(
-                        controller: model.authorController,
-                        decoration: const InputDecoration(
-                          hintText: "著者",
-                        ),
-                        onChanged: (text) {
-                          model.author = text;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
                       DropdownButton(
                         hint: const Text('選択してください'),
                         value: model.selectedGenre,

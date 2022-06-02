@@ -18,7 +18,6 @@ class BookFirestore {
       'imgURL': favoriteBook.imgURL,
       'created_time': Timestamp.now(),
       'title': favoriteBook.title,
-      'author': favoriteBook.author,
     });
   }
 
@@ -39,7 +38,6 @@ class BookFirestore {
       'created_time': Timestamp.now(),
       'imgURL': borrowBook.imgURL,
       'title': borrowBook.title,
-      'author': borrowBook.author,
     });
     borrowBookCollection
         .doc(borrowBook.id)

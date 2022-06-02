@@ -42,10 +42,7 @@ class AccountModel extends ChangeNotifier {
       final usersBook = snapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
         return Book(
-            id: document.id,
-            title: data['title'],
-            author: data['author'],
-            imgURL: data['imgURL']);
+            id: document.id, title: data['title'], imgURL: data['imgURL']);
       }).toList();
       this.usersBook = usersBook;
       notifyListeners();

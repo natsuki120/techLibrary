@@ -7,14 +7,10 @@ import 'package:image_picker/image_picker.dart';
 class AddBookModel extends ChangeNotifier {
   String selectedGenre = 'フロントエンド';
   String? title;
-  String? author;
   File? imageFile;
   final picker = ImagePicker();
   final formKey = GlobalKey<FormState>();
-  // 本のタイトル
   TextEditingController titleController = TextEditingController();
-  // 著者
-  TextEditingController authorController = TextEditingController();
 
   List<String> genre = [
     'フロントエンド',
@@ -41,9 +37,8 @@ class AddBookModel extends ChangeNotifier {
 
   Future addBook() async {
     title = titleController.text;
-    author = authorController.text;
 
-    if (title != null && author != null && imageFile != null) {
+    if (title != null && imageFile != null) {
       final doc = FirebaseFirestore.instance.collection('book').doc();
 
       String? imgURL;
@@ -56,12 +51,10 @@ class AddBookModel extends ChangeNotifier {
 
       await doc.set({
         'title': title,
-        'author': author,
         'imgURL': imgURL,
         'genre': selectedGenre,
       });
 
-      authorController.clear();
       titleController.clear();
       imageFile = null;
       notifyListeners();
