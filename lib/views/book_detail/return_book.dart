@@ -47,10 +47,9 @@ class ReturnBook extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // 本の名前
                       Container(
                         alignment: Alignment.center,
-                        width: 300,
+                        width: size.width * 0.7,
                         child: Text(
                           book.title,
                           textAlign: TextAlign.center,
@@ -91,12 +90,9 @@ class ReturnBook extends StatelessWidget {
                         ),
                         onTap: () async {
                           EasyLoading.show(status: 'loading...');
-                          var result =
-                              await BookFirestore.returnMyBook(book.id);
+                          await BookFirestore.returnMyBook(book.id);
                           EasyLoading.showSuccess('返却しました');
-                          if (result == true) {
-                            Navigator.pop(context);
-                          }
+                          Navigator.pop(context);
                         },
                       )
                     ],
