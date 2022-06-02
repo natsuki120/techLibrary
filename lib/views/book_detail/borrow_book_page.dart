@@ -88,11 +88,9 @@ class BorrowBookPage extends StatelessWidget {
                         ),
                         onTap: () async {
                           EasyLoading.show(status: 'Loading...');
-                          var result = await BookFirestore.borrowBook(book);
+                          await BookFirestore.borrowBook(book);
                           EasyLoading.showSuccess('貸出に成功しました');
-                          if (result == true) {
-                            Navigator.pop(context);
-                          }
+                          Navigator.pop(context);
                         },
                       )
                     ],
