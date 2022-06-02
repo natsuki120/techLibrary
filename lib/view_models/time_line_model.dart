@@ -43,7 +43,8 @@ class TimeLineModel extends ChangeNotifier {
       'authorId': Authentication.myAccount!.id,
       'authorImage': Authentication.myAccount!.imagePath,
       'bookImage': postBooks?.imgURL,
-      'text': postsCommentController.text
+      'text': postsCommentController.text,
+      'createdAt': Timestamp.now(),
     });
 
     await usersPostDoc.set({
@@ -55,8 +56,10 @@ class TimeLineModel extends ChangeNotifier {
   }
 
   void fetchPost() {
-    final Stream<QuerySnapshot> snapshots =
-        _firestoreInstance.collection('posts').snapshots();
+    final Stream<QuerySnapshot> snapshots = _firestoreInstance
+        .collection('posts')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
 
     snapshots.listen((QuerySnapshot snapshot) {
       final List<Post> posts = snapshot.docs.map((DocumentSnapshot document) {
@@ -68,6 +71,7 @@ class TimeLineModel extends ChangeNotifier {
           authorImage: data['authorImage'],
           bookImage: data['bookImage'],
           text: data['text'],
+          createdAt: data['createdAt'],
         );
       }).toList();
       this.posts = posts;
@@ -98,7 +102,8 @@ class TimeLineModel extends ChangeNotifier {
       'authorId': Authentication.myAccount!.id,
       'author': Authentication.myAccount!.name,
       'author_image': Authentication.myAccount!.imagePath,
-      'text': commentController.text
+      'text': commentController.text,
+      'createdAt': Timestamp.now(),
     });
 
     await usersCommentDoc.set({
@@ -113,6 +118,7 @@ class TimeLineModel extends ChangeNotifier {
         .collection('posts')
         .doc(post.id)
         .collection('postsComments')
+        .orderBy('createdAt', descending: false)
         .snapshots();
 
     snapshots.listen((QuerySnapshot snapshot) {
@@ -125,6 +131,7 @@ class TimeLineModel extends ChangeNotifier {
           authorId: data['authorId'],
           authorImage: data['author_image'],
           text: data['text'],
+          createdAt: data['createdAt'],
         );
       }).toList();
       postComments = comments;
