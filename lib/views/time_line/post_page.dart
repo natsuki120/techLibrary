@@ -35,16 +35,15 @@ class PostPage extends StatelessWidget {
                   GestureDetector(
                     child: SizedBox(
                       width: size.width * 0.35,
-                      height: size.height * 0.3,
-                      child: SizedBox(
-                        width: size.width * 0.35,
-                        height: size.height * 0.25,
-                        child: postBook != null
-                            ? Image.network(postBook!.imgURL)
-                            : Container(
-                                color: Colors.grey,
-                              ),
-                      ),
+                      height: size.height * 0.28,
+                      child: postBook != null
+                          ? Image.network(
+                              postBook!.imgURL,
+                              fit: BoxFit.fill,
+                            )
+                          : Container(
+                              color: Colors.grey,
+                            ),
                     ),
                     onTap: () async {
                       showSearch(

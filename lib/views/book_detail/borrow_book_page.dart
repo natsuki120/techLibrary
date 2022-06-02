@@ -32,7 +32,12 @@ class BorrowBookPage extends StatelessWidget {
             ),
             // 本
             child: SizedBox(
-              child: Image.network(book.imgURL),
+              child: Image.network(
+                book.imgURL,
+                fit: BoxFit.fill,
+                width: size.width * 0.4,
+                height: size.height * 0.3,
+              ),
             ),
           ),
           Column(
@@ -44,7 +49,6 @@ class BorrowBookPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // 本の名前
                       Container(
                         alignment: Alignment.center,
                         width: size.width * 0.7,

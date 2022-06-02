@@ -31,10 +31,11 @@ class ReturnBook extends StatelessWidget {
                   colors: [Colors.blue, Colors.lightBlue.shade200]),
             ),
             child: SizedBox(
+              width: size.width * 0.4,
               height: size.height * 0.3,
-              child: SizedBox(
-                height: size.height * 0.3,
-                child: Image.network(book.imgURL),
+              child: Image.network(
+                book.imgURL,
+                fit: BoxFit.fill,
               ),
             ),
           ),

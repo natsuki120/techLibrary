@@ -78,6 +78,8 @@ class MyBook extends StatelessWidget {
                       ),
                       child: Image(
                         image: NetworkImage(myBook.imgURL),
+                        width: size.width * 0.35,
+                        height: size.height * 0.3,
                         fit: BoxFit.fill,
                       ),
                     ),

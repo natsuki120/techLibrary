@@ -84,6 +84,8 @@ class MyFavoriteBook extends StatelessWidget {
                           child: Image(
                             image: NetworkImage(favoriteBook.imgURL),
                             fit: BoxFit.fill,
+                            width: size.width * 0.35,
+                            height: size.height * 0.3,
                           ),
                         ),
                         onTap: () async {
