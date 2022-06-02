@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post {
   Post({
     this.id = '',
@@ -6,6 +8,7 @@ class Post {
     this.authorImage = '',
     this.bookImage = '',
     this.text = '',
+    required this.createdAt,
   });
   String id;
   String author;
@@ -13,4 +16,5 @@ class Post {
   String authorImage;
   String? bookImage;
   String text;
+  Timestamp? createdAt;
 }
