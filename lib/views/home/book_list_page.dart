@@ -13,8 +13,8 @@ class BookListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider.value(
-      value: BookListModel()
+    return ChangeNotifierProvider(
+      create: (_) => BookListModel()
         ..fetchGenreBook(title)
         ..fetchBorrowBook(),
       child: Column(
