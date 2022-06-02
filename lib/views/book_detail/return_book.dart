@@ -22,7 +22,6 @@ class ReturnBook extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // 本
           Container(
             height: size.height * 0.35,
             padding: EdgeInsets.only(bottom: size.height * 0.04),
@@ -39,7 +38,6 @@ class ReturnBook extends StatelessWidget {
               ),
             ),
           ),
-          // 詳細部分
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -107,8 +105,8 @@ class ReturnBook extends StatelessWidget {
               ),
             ],
           ),
-          ChangeNotifierProvider(
-            create: (_) => BookListModel()..fetchFavoriteBook(),
+          ChangeNotifierProvider.value(
+            value: BookListModel()..fetchFavoriteBook(),
             child: Consumer<BookListModel>(
               builder: (context, model, child) {
                 List favoriteBooks = model.favoriteBooks;
@@ -135,7 +133,7 @@ class ReturnBook extends StatelessWidget {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
