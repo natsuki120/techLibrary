@@ -7,15 +7,13 @@ import 'package:tech_library/views/book_detail/borrow_book_page.dart';
 import 'package:tech_library/views/book_detail/checked_out_book_page.dart';
 
 class AllBookPage extends StatelessWidget {
-  const AllBookPage(
-      {Key? key,
-      required this.genre,
-      required this.collection,
-      required this.model})
-      : super(key: key);
+  const AllBookPage({
+    Key? key,
+    required this.genre,
+    required this.collection,
+  }) : super(key: key);
   final String genre;
   final String collection;
-  final BookListModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +30,11 @@ class AllBookPage extends StatelessWidget {
         ),
       ),
       body: ChangeNotifierProvider.value(
-        value: BookListModel(),
+        value: BookListModel()
+          ..fetchBorrowBook()
+          ..fetchGenreBook(genre),
         child: Consumer<BookListModel>(
           builder: (context, model, child) {
-            model.fetchBorrowBook();
-            model.fetchGenreBook(genre);
             final List<Widget> widgets = model.genreBooks.map(
               (book) {
                 return Stack(
@@ -71,17 +69,15 @@ class AllBookPage extends StatelessWidget {
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CheckedOutBookPage(
-                                    book: book,
-                                    model: model,
-                                  ),
+                                  builder: (context) =>
+                                      CheckedOutBookPage(book: book),
                                 ),
                               )
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      BorrowBookPage(book: book, model: model),
+                                      BorrowBookPage(book: book),
                                 ),
                               );
                       },

@@ -58,19 +58,15 @@ class AllMyFavoriteBookPage extends StatelessWidget {
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CheckedOutBookPage(
-                                    book: favoriteBook,
-                                    model: model,
-                                  ),
+                                  builder: (context) =>
+                                      CheckedOutBookPage(book: favoriteBook),
                                 ),
                               )
                             : Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BorrowBookPage(
-                                    book: favoriteBook,
-                                    model: model,
-                                  ),
+                                  builder: (context) =>
+                                      BorrowBookPage(book: favoriteBook),
                                 ),
                               );
                       },

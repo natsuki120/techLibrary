@@ -17,115 +17,108 @@ class BookListPage extends StatelessWidget {
       value: BookListModel()
         ..fetchGenreBook(title)
         ..fetchBorrowBook(),
-      child: Consumer<BookListModel>(builder: (context, model, child) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 20, left: 25),
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.blue.withOpacity(0.5),
-                      decorationThickness: 5,
-                    ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(top: 20, left: 25),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.blue.withOpacity(0.5),
+                    decorationThickness: 5,
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 20, right: 10),
-                  child: ElevatedButton(
-                    child: const Text('More'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.lightBlueAccent.withOpacity(0.9),
-                      onPrimary: Colors.white,
-                      shape: const StadiumBorder(),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AllBookPage(
-                            genre: title,
-                            collection: 'book',
-                            model: model,
-                          ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                child: ElevatedButton(
+                  child: const Text('More'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent.withOpacity(0.9),
+                    onPrimary: Colors.white,
+                    shape: const StadiumBorder(),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AllBookPage(
+                          genre: title,
+                          collection: 'book',
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
-            Builder(builder: (context) {
-              List<Widget> widgets = model.genreBooks
-                  .map(
-                    (book) => Stack(
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.02,
-                              vertical: size.height * 0.025,
-                            ),
-                            width: size.width * 0.35,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 10,
-                                  color: Colors.black.withOpacity(0.5),
-                                )
-                              ],
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: book.imgURL,
-                              fit: BoxFit.fill,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                          onTap: () {
-                            model.borrowBooks.contains(book.id)
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CheckedOutBookPage(
-                                        book: book,
-                                        model: model,
-                                      ),
-                                    ),
+              ),
+            ],
+          ),
+          Consumer<BookListModel>(
+            builder: (context, model, child) {
+              final List<Widget> widgets = model.genreBooks
+                  .map((book) => Stack(
+                        children: [
+                          GestureDetector(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.02,
+                                vertical: size.height * 0.025,
+                              ),
+                              width: size.width * 0.35,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.5),
                                   )
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BorrowBookPage(
-                                        book: book,
-                                        model: model,
+                                ],
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: book.imgURL,
+                                fit: BoxFit.fill,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                            onTap: () {
+                              model.borrowBooks.contains(book.id)
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            CheckedOutBookPage(book: book),
                                       ),
-                                    ),
-                                  );
-                          },
-                        ),
-                        model.borrowBooks.contains(book.id)
-                            ? Container(
-                                height: size.height * 0.07,
-                                width: size.width * 0.06,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.red,
-                                ),
-                              )
-                            : Container()
-                      ],
-                    ),
-                  )
+                                    )
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            BorrowBookPage(book: book),
+                                      ),
+                                    );
+                            },
+                          ),
+                          model.borrowBooks.contains(book.id)
+                              ? Container(
+                                  height: size.height * 0.07,
+                                  width: size.width * 0.06,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.red,
+                                  ),
+                                )
+                              : Container()
+                        ],
+                      ))
                   .toList();
               return SizedBox(
                 height: size.height * 0.3,
@@ -137,10 +130,10 @@ class BookListPage extends StatelessWidget {
                   ),
                 ),
               );
-            })
-          ],
-        );
-      }),
+            },
+          ),
+        ],
+      ),
     );
   }
 }
