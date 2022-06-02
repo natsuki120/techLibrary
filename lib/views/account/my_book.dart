@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tech_library/view_models/account_model.dart';
 import 'package:tech_library/views/book_detail/return_book.dart';
-import 'package:tech_library/views/account/all_my_book_page.dart';
+import 'package:tech_library/views/account/components/all_my_book_page.dart';
 
 class MyBook extends StatelessWidget {
   const MyBook({Key? key}) : super(key: key);
@@ -57,10 +57,9 @@ class MyBook extends StatelessWidget {
           ],
         ),
         ChangeNotifierProvider<AccountModel>(
-          create: (_) => AccountModel(),
+          create: (_) => AccountModel()..fetchMyBook(),
           child: Consumer<AccountModel>(
             builder: (context, model, child) {
-              model.fetchMyBook();
               final List<Widget> widgets = model.usersBook.map(
                 (myBook) {
                   return GestureDetector(

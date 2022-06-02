@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tech_library/view_models/book/book_list_model.dart';
 import 'package:tech_library/views/book_detail/borrow_book_page.dart';
 import 'package:tech_library/views/book_detail/checked_out_book_page.dart';
-import '../all_my_favorite_book.dart';
+import 'components/all_my_favorite_book.dart';
 
 class MyFavoriteBook extends StatelessWidget {
   const MyFavoriteBook({Key? key}) : super(key: key);
@@ -58,11 +58,11 @@ class MyFavoriteBook extends StatelessWidget {
           ],
         ),
         ChangeNotifierProvider(
-          create: (_) => BookListModel(),
+          create: (_) => BookListModel()
+            ..fetchBorrowBook()
+            ..fetchMyFavoriteBook(),
           child: Consumer<BookListModel>(
             builder: (context, model, child) {
-              model.fetchBorrowBook();
-              model.fetchMyFavoriteBook();
               final List<Widget> widgets = model.usersFavoriteBook.map(
                 (favoriteBook) {
                   return Stack(
@@ -91,19 +91,15 @@ class MyFavoriteBook extends StatelessWidget {
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CheckedOutBookPage(
-                                      book: favoriteBook,
-                                      model: model,
-                                    ),
+                                    builder: (context) =>
+                                        CheckedOutBookPage(book: favoriteBook),
                                   ),
                                 )
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => BorrowBookPage(
-                                      book: favoriteBook,
-                                      model: model,
-                                    ),
+                                    builder: (context) =>
+                                        BorrowBookPage(book: favoriteBook),
                                   ),
                                 );
                         },
