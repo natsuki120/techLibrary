@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tech_library/models/post.dart';
 import 'package:tech_library/utils/authentication.dart';
 import 'package:tech_library/view_models/time_line_model.dart';
+import 'package:tech_library/views/time_line/edit_post_page.dart';
 
 class PostDetailPage extends StatelessWidget {
   PostDetailPage({Key? key, required this.post}) : super(key: key);
@@ -116,34 +117,50 @@ class PostDetailPage extends StatelessWidget {
                               ],
                             ),
                             post.authorId == Authentication.myAccount!.id
-                                ? IconButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) {
-                                          return AlertDialog(
-                                            content: const Text("削除しますか？"),
-                                            actions: [
-                                              TextButton(
-                                                child: const Text("いいえ"),
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                              ),
-                                              TextButton(
-                                                child: const Text("はい"),
-                                                onPressed: () async {
-                                                  model.deletePost(post);
-                                                  Navigator.of(context)
-                                                      .popUntil((route) =>
-                                                          route.isFirst);
-                                                },
-                                              ),
-                                            ],
+                                ? Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPostPage(post: post),
+                                            ),
                                           );
                                         },
-                                      );
-                                    },
-                                    icon: const Icon(Icons.delete),
+                                        icon: const Icon(Icons.edit),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return AlertDialog(
+                                                content: const Text("削除しますか？"),
+                                                actions: [
+                                                  TextButton(
+                                                    child: const Text("いいえ"),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                  ),
+                                                  TextButton(
+                                                    child: const Text("はい"),
+                                                    onPressed: () async {
+                                                      model.deletePost(post);
+                                                      Navigator.of(context)
+                                                          .popUntil((route) =>
+                                                              route.isFirst);
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    ],
                                   )
                                 : Container(),
                           ],

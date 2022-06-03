@@ -10,10 +10,12 @@ class TimeLineModel extends ChangeNotifier {
   List<Book> postBook = [];
   List<Post> posts = [];
   List<Comment> postComments = [];
+  Post? editPost;
   Book? postBooks;
   final picker = ImagePicker();
   TextEditingController postsCommentController = TextEditingController();
   TextEditingController commentController = TextEditingController();
+  TextEditingController editController = TextEditingController();
   static final _firestoreInstance = FirebaseFirestore.instance;
 
   void fetchPostBook() {
@@ -142,5 +144,24 @@ class TimeLineModel extends ChangeNotifier {
         .doc(post.id)
         .collection('postsComments');
     comment.doc(postCommentId).delete();
+  }
+
+  fetchPostText(Post post) {
+    Stream<DocumentSnapshot> snapshots =
+        _firestoreInstance.collection('posts').doc(post.id).snapshots();
+
+    snapshots.listen((DocumentSnapshot snapshot) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      editPost = Post(text: data['text']);
+      editController.text = editPost!.text;
+      notifyListeners();
+    });
+  }
+
+  update(Post post) {
+    _firestoreInstance
+        .collection('posts')
+        .doc(post.id)
+        .update({'text': editController.text});
   }
 }
