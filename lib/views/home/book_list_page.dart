@@ -72,6 +72,7 @@ class BookListPage extends StatelessWidget {
                                 vertical: size.height * 0.025,
                               ),
                               width: size.width * 0.35,
+                              height: size.height * 0.3,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(

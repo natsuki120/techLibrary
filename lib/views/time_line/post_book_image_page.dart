@@ -33,7 +33,12 @@ class PostBookImagePage extends StatelessWidget {
                       colors: [Colors.blue, Colors.lightBlue.shade200]),
                 ),
                 child: SizedBox(
-                  child: Image.network(postBook.imgURL),
+                  width: size.width * 0.4,
+                  height: size.height * 0.3,
+                  child: Image.network(
+                    postBook.imgURL,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               Column(

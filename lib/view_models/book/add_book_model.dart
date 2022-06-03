@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tech_library/utils/function_utils.dart';
 
 class AddBookModel extends ChangeNotifier {
   String selectedGenre = 'フロントエンド';
@@ -27,7 +28,7 @@ class AddBookModel extends ChangeNotifier {
   }
 
   void pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    final pickedFile = await FunctionUtils.fetchImageFromGallery();
 
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);

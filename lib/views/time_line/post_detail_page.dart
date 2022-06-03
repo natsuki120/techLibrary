@@ -119,28 +119,29 @@ class PostDetailPage extends StatelessWidget {
                                 ? IconButton(
                                     onPressed: () {
                                       showDialog(
-                                          context: context,
-                                          builder: (_) {
-                                            return AlertDialog(
-                                              content: const Text("削除しますか？"),
-                                              actions: [
-                                                TextButton(
-                                                  child: const Text("いいえ"),
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                ),
-                                                TextButton(
-                                                  child: const Text("はい"),
-                                                  onPressed: () async {
-                                                    model.deletePost(post);
-                                                    Navigator.of(context)
-                                                        .popUntil((route) =>
-                                                            route.isFirst);
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          });
+                                        context: context,
+                                        builder: (_) {
+                                          return AlertDialog(
+                                            content: const Text("削除しますか？"),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text("いいえ"),
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                              ),
+                                              TextButton(
+                                                child: const Text("はい"),
+                                                onPressed: () async {
+                                                  model.deletePost(post);
+                                                  Navigator.of(context)
+                                                      .popUntil((route) =>
+                                                          route.isFirst);
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     icon: const Icon(Icons.delete),
                                   )
@@ -152,8 +153,12 @@ class PostDetailPage extends StatelessWidget {
                         ),
                         post.bookImage != null
                             ? SizedBox(
+                                width: size.width * 0.4,
                                 height: size.height * 0.3,
-                                child: Image.network(post.bookImage!),
+                                child: Image.network(
+                                  post.bookImage!,
+                                  fit: BoxFit.fill,
+                                ),
                               )
                             : const SizedBox(),
                         SizedBox(

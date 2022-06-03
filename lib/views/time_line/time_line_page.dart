@@ -66,7 +66,12 @@ class TimeLinePage extends StatelessWidget {
                                 post.bookImage != null
                                     ? SizedBox(
                                         height: size.height * 0.3,
-                                        child: Image.network(post.bookImage!),
+                                        child: Image.network(
+                                          post.bookImage!,
+                                          fit: BoxFit.fill,
+                                          width: size.width * 0.4,
+                                          height: size.height * 0.3,
+                                        ),
                                       )
                                     : const SizedBox(),
                                 SizedBox(

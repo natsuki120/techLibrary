@@ -48,7 +48,10 @@ class _AddBookPageState extends State<AddBookPage> {
                           width: size.width * 0.35,
                           height: size.height * 0.25,
                           child: model.imageFile != null
-                              ? Image.file(model.imageFile!)
+                              ? Image.file(
+                                  model.imageFile!,
+                                  fit: BoxFit.fill,
+                                )
                               : Container(
                                   color: Colors.grey,
                                 ),
