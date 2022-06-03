@@ -8,7 +8,7 @@ class Post {
     this.authorImage = '',
     this.bookImage = '',
     this.text = '',
-    required this.createdAt,
+    this.createdAt,
   });
   String id;
   String author;
