@@ -14,8 +14,8 @@ class PostDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider(
-      create: (_) => TimeLineModel()..fetchPostComment(post),
+    return ChangeNotifierProvider.value(
+      value: TimeLineModel()..fetchPostComment(post),
       child: Scaffold(
         appBar: NewGradientAppBar(
           gradient: LinearGradient(
