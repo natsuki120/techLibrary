@@ -146,16 +146,14 @@ class TimeLineModel extends ChangeNotifier {
     comment.doc(postCommentId).delete();
   }
 
-  fetchPostText(Post post) {
-    Stream<DocumentSnapshot> snapshots =
-        _firestoreInstance.collection('posts').doc(post.id).snapshots();
+  fetchPostText(Post post) async {
+    DocumentSnapshot snapshots =
+        await _firestoreInstance.collection('posts').doc(post.id).get();
 
-    snapshots.listen((DocumentSnapshot snapshot) {
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      editPost = Post(text: data['text']);
-      editController.text = editPost!.text;
-      notifyListeners();
-    });
+    Map<String, dynamic> data = snapshots.data() as Map<String, dynamic>;
+    editPost = Post(text: data['text']);
+    editController.text = editPost!.text;
+    notifyListeners();
   }
 
   update(Post post) {
